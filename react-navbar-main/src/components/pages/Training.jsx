@@ -44,10 +44,12 @@ const data2 = [
     amt: 40,
   },
 ];
-let percentage = 82;
 let AccessCode = "";
-
+let percentage = 0;
 const distanceGoal = 1500;
+let kms = 15;
+let runTotal = 10;
+let distance = 50;
 
 var d = new Date();
 // console.log(d);
@@ -118,10 +120,12 @@ export const Training = () => {
         "https://www.strava.com/api/v3/athletes/27856438/stats?access_token=" + AccessCode);
 
         const response = await endpoint2.json();
-        //console.log(response);
+        // console.log(response);
         setStravaData(response);
-         //console.log(response);
-
+        
+         percentage=response.ytd_run_totals.distance / distanceGoal /10;
+         runTotal = response.ytd_run_totals.count
+         distance = response.ytd_run_totals.distance / distanceGoal
       }
       getActivities();
     }
@@ -140,9 +144,10 @@ export const Training = () => {
   //   return data;
   // }
   // fetchData();
- console.log(stravaData.ytd_run_totals.distance);
-percentage = stravaData.ytd_run_totals.distance / distanceGoal /10;
- console.log(percentage);
+  
+//  console.log(stravaData.ytd_run_totals.distance);
+// percentage = stravaData.ytd_run_totals.distance / distanceGoal /10;
+//  console.log(percentage);
 return (
     <div>
       <section className="content_section">
@@ -204,12 +209,12 @@ return (
                 <table className="table1">
                   <tr>
                     <th>Total Runs:</th>
-                    <td>{stravaData.ytd_run_totals.count}</td>
+                    <td>{runTotal}</td>
                     {/* <td>{stravaData}</td> */}
                   </tr>
                   <tr>
                     <th>Distance:</th>
-                    <td>{stravaData.ytd_run_totals.distance /1000}</td>
+                    <td>{distance}</td>
                     {/* <td>620 kms</td> */}
                   </tr>
                   <tr>

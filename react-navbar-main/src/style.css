@@ -567,12 +567,16 @@ a:active {
 
 
 @media screen and (max-width: 950px) {
+
+  .item-5{
+    display:none;
+}
   .item {
     /* background: #FFFFFF; */
     color: #090224;
     font-size: 10px;
     padding: 5px;
-    /* border: skyblue 0px solid; */
+    /* border: skyblue 1px solid; */
     text-align: center;
     font-family: "Michroma";
     /* background: #e6e6bc; */
@@ -667,9 +671,9 @@ a:active {
 
 
 @media screen and (max-width: 650px) {
-  /* .item-5{
+  .item-5{
         display:none;
-    } */
+    }
 
   .container2 {
     height: 100vh;
@@ -707,7 +711,7 @@ a:active {
     /* border: 1px solid #3a921c; */
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 700;
     /* font-family: "Racing Sans One", cursive; */
   }
