@@ -44,16 +44,46 @@ const data2 = [
     amt: 40,
   },
 ];
-const percentage = 42;
+let percentage = 82;
 let AccessCode = "";
 
+const distanceGoal = 1500;
+
+var d = new Date();
+// console.log(d);
+var day = d.getDay(),
+  diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+var newdate = new Date(d.setDate(diff));
+// var hour = newdate.getHours();
+// var mins = newdate.getMinutes();
+// var secs = newdate.getSeconds();
+
+// console.log(newdate);
+// console.log(hour);
+// console.log(mins);
+// console.log(secs);
+
+newdate.setHours(0);
+newdate.setMinutes(0);
+newdate.setSeconds(0);
+
+// console.log(newdate);
+// console.log(hour);
+// console.log(mins);
+// console.log(secs);
+
+//var epoch = newdate.getTime() - newdate.getMilliseconds() / 1000;
+
+var myEpoch = newdate.getTime() / 1000.0;
+// console.log(myEpoch);
+
+let Monday = myEpoch.toFixed();
+// console.log(myEpoch.toFixed());
 
 export const Training = () => {
   const [token, setToken] = useState([]);
   const [stravaData, setStravaData] = useState([]);
 
-
-  
   useEffect(() => {
     async function getData() {
       const request = await fetch(
@@ -71,33 +101,35 @@ export const Training = () => {
       // const data3 = await fetchedData.json();
 
       setToken(response);
-      setStravaData(response.access_token);
+      // setStravaData(response.access_token);
       AccessCode = response.access_token;
       // console.log(data3);
 
-
-
-
-
       async function getActivities() {
-        
-    
         const endpoint2 = await fetch(
-          "https://www.strava.com/api/v3/athlete/activities?access_token=" + AccessCode
-        );
+          // "https://www.strava.com/api/v3/athlete/activities?access_token=" + AccessCode);
+
+        //   "https://www.strava.com/api/v3/athlete/activities?access_token=" +
+        //     AccessCode +
+        //     "&after=" +
+        //     Monday
+        // );
+
+        "https://www.strava.com/api/v3/athletes/27856438/stats?access_token=" + AccessCode);
 
         const response = await endpoint2.json();
-        console.log(response);
+        //console.log(response);
+        setStravaData(response);
+         //console.log(response);
 
       }
       getActivities();
-
     }
     getData();
   }, []);
 
   //console.log(token);
-  console.log(stravaData);
+  // console.log(stravaData.ytd_run_totals.distance);
 
   // async function fetchData() {
   //   const response = await fetch(
@@ -108,8 +140,10 @@ export const Training = () => {
   //   return data;
   // }
   // fetchData();
-
-  return (
+ console.log(stravaData.ytd_run_totals.distance);
+percentage = stravaData.ytd_run_totals.distance / distanceGoal /10;
+ console.log(percentage);
+return (
     <div>
       <section className="content_section">
         <div className="container3">
@@ -170,25 +204,25 @@ export const Training = () => {
                 <table className="table1">
                   <tr>
                     <th>Total Runs:</th>
-                    {/* <td>{recentRunCount[0].employeeID}</td> */}
-                    <td>85</td>
+                    <td>{stravaData.ytd_run_totals.count}</td>
+                    {/* <td>{stravaData}</td> */}
                   </tr>
                   <tr>
                     <th>Distance:</th>
-                    {/* <td>{recentRunCount[0].employeeID} kms</td> */}
-                    <td>620 kms</td>
+                    <td>{stravaData.ytd_run_totals.distance /1000}</td>
+                    {/* <td>620 kms</td> */}
                   </tr>
                   <tr>
                     <th>Goal:</th>
-                    {/* <td>{recentRunCount[0].employeeID} kms</td> */}
-                    <td>1500 kms</td>
+                    <td>{distanceGoal} kms</td>
+                    {/* <td>1500 kms</td> */}
                   </tr>
                 </table>
               </div>
               <div style={{ width: 200, height: 200, marginRight: 30 }}>
                 <CircularProgressbar
                   value={percentage}
-                  text={`${percentage}%`}
+                  text={`${percentage.toFixed()}%`}
                   styles={{
                     // Customize the root svg element
                     root: {},
