@@ -90,10 +90,13 @@ export default function Center() {
           <div className="item item-1"></div>
           <div className="item item-2">
             <img src={reactLogo2} className="mainlogo" />
+
           </div>
           <div className="item item-3"></div>
           <div className="item item-4">
-            <img src={reactLogo3} className="mainlogo2" />
+          
+          <img src={reactLogo3} className="mainlogo2" />
+          <h3>September 21, 2024</h3>
             <h1 className="header">24hr RACE</h1>
             <h1 className="header2">starts in</h1>
 

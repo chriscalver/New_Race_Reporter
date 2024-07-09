@@ -89,7 +89,7 @@ nav .menu span {
     
     nav ul {
         display: flex;
-        /* margin: 1.20rem; */
+        margin: 1.20rem;    
 
     }
     
@@ -113,7 +113,7 @@ nav .menu span {
     nav .menu {
         display: none;
         position: absolute;
-        top: 0.75rem;
+        top: 1.05rem;
         right: 0.5rem;
         flex-direction: column;
         justify-content: space-between;
@@ -131,7 +131,7 @@ nav .menu span {
 
 }
 
-@media (max-width: 710px) {
+@media (max-width: 745px) {
     nav .menu {
         display: flex;
     }

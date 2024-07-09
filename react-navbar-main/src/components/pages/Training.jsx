@@ -18,76 +18,73 @@ import {
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const data2 = [
+var AccessCode = "";
+const YTDdistanceGoal = 1500;
+var YTDpercentage = 0;
+var YTDrunTotals = 0;
+var YTDdistance = 0;
+
+var RecentRuns = 0;
+var RecentKms = 0;
+
+var d = new Date();
+var day = d.getDay(),
+  diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+var newdate = new Date(d.setDate(diff));
+newdate.setHours(0);
+newdate.setMinutes(0);
+newdate.setSeconds(0);
+var myEpoch = newdate.getTime() / 1000;
+
+var weekOneStart = Math.floor(myEpoch);
+var weekOneEnd = weekOneStart + 604799;
+var weekOneTotal = 0;
+
+var weekTwoStart = weekOneStart - 604800;
+var weekTwoEnd = weekOneStart - 1;
+
+var weekThreeStart = weekOneStart - 1209600;
+var weekThreeEnd = weekOneStart - 1209600 + 604799;
+
+var weekFourStart = weekOneStart - 1814400;
+var weekFourEnd = weekOneStart - 1814400 + 604799;
+var weekFourTotal = 0;
+
+
+var data2 = [
   {
     name: "Wk 1",
     kms: 32,
     pv: 2400,
-    amt: 10,
+    amt: 15,
   },
   {
     name: "Wk 2",
     kms: 28,
     pv: 1398,
-    amt: 20,
-  },
-  {
-    name: "Wk 3",
-    kms: 36,
-    pv: 9800,
     amt: 30,
   },
   {
+    name: "Wk 3",
+    kms: 24,
+    pv: 9800,
+    amt: 45,
+  },
+  {
     name: "Wk 4",
-    kms: 30,
+    kms: 39,
     pv: 3908,
-    amt: 40,
+    amt: 60,
   },
 ];
-let AccessCode = "";
-let percentage = 0;
-const distanceGoal = 1500;
-let kms = 15;
-let runTotal = 10;
-let distance = 50;
-
-var d = new Date();
-// console.log(d);
-var day = d.getDay(),
-  diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-var newdate = new Date(d.setDate(diff));
-// var hour = newdate.getHours();
-// var mins = newdate.getMinutes();
-// var secs = newdate.getSeconds();
-
-// console.log(newdate);
-// console.log(hour);
-// console.log(mins);
-// console.log(secs);
-
-newdate.setHours(0);
-newdate.setMinutes(0);
-newdate.setSeconds(0);
-
-// console.log(newdate);
-// console.log(hour);
-// console.log(mins);
-// console.log(secs);
-
-//var epoch = newdate.getTime() - newdate.getMilliseconds() / 1000;
-
-var myEpoch = newdate.getTime() / 1000.0;
-// console.log(myEpoch);
-
-let Monday = myEpoch.toFixed();
-// console.log(myEpoch.toFixed());
 
 export const Training = () => {
   const [token, setToken] = useState([]);
   const [stravaData, setStravaData] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    async function getData() {
+    async function getCode() {
       const request = await fetch(
         "https://www.strava.com/oauth/token?client_id=105639&client_secret=7189c307da8243d844c6baa42687e07b6bf2602f&refresh_token=12e9e2963c28b90e2c2da47839f26875c76952f1&grant_type=refresh_token",
         {
@@ -99,56 +96,59 @@ export const Training = () => {
       );
       const response = await request.json();
 
-      // const fetchedData = await fetch("https://www.chriscalver.com/employeeregisterapibk/api/Employee/");
-      // const data3 = await fetchedData.json();
-
       setToken(response);
-      // setStravaData(response.access_token);
       AccessCode = response.access_token;
-      // console.log(data3);
+      // console.log(AccessCode);
 
-      async function getActivities() {
-        const endpoint2 = await fetch(
-          // "https://www.strava.com/api/v3/athlete/activities?access_token=" + AccessCode);
+      async function getStats() {
 
-        //   "https://www.strava.com/api/v3/athlete/activities?access_token=" +
-        //     AccessCode +
-        //     "&after=" +
-        //     Monday
-        // );
+        // api call for stats below
 
-        "https://www.strava.com/api/v3/athletes/27856438/stats?access_token=" + AccessCode);
+        const endpointStats = await fetch(
+          "https://www.strava.com/api/v3/athletes/27856438/stats?access_token=" +
+            AccessCode
+        );
+        const statsResponse = await endpointStats.json();
+        // console.log(statsResponse);
+        setStravaData(statsResponse);
+        // console.log(stravaData);
+        // data2[0].kms = statsResponse.recent_run_totals.distance / 1000;
+        YTDpercentage = statsResponse.ytd_run_totals.distance / YTDdistanceGoal / 10;
+        YTDrunTotals = statsResponse.ytd_run_totals.count;
+        YTDdistance = statsResponse.ytd_run_totals.distance / 1000;
+        RecentRuns = statsResponse.recent_run_totals.distance / 1000;
+        RecentKms = statsResponse.recent_run_totals.count;
 
-        const response = await endpoint2.json();
-        // console.log(response);
-        setStravaData(response);
-        
-         percentage=response.ytd_run_totals.distance / distanceGoal /10;
-         runTotal = response.ytd_run_totals.count
-         distance = response.ytd_run_totals.distance / distanceGoal
+        // week four api call below
+
+        const weekFourActivities = await fetch(
+          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
+            AccessCode +
+            "&after=" +
+            weekFourStart +
+            "&before=" +
+            weekFourEnd
+        );
+        const weekFourResponse = await weekFourActivities.json();      
+
+        weekFourTotal = weekFourResponse.map((weekFour) => weekFour.distance);
+        let sum = 0;
+        weekFourTotal.forEach((el) => (sum += el));
+        weekFourTotal = sum;
+        console.log(weekFourTotal);
+
       }
-      getActivities();
+      getStats();
     }
-    getData();
+    getCode();
   }, []);
 
-  //console.log(token);
-  // console.log(stravaData.ytd_run_totals.distance);
+  // console.log(stravaData);
+  // console.log(activities);
+  //  console.log(weekFourTotal);
+  // console.log(data2);
 
-  // async function fetchData() {
-  //   const response = await fetch(
-  //     "https://www.chriscalver.com/employeeregisterapibk/api/Employee/"
-  //   );
-  //   const data = await response.json();
-  //   console.log(data);
-  //   return data;
-  // }
-  // fetchData();
-  
-//  console.log(stravaData.ytd_run_totals.distance);
-// percentage = stravaData.ytd_run_totals.distance / distanceGoal /10;
-//  console.log(percentage);
-return (
+  return (
     <div>
       <section className="content_section">
         <div className="container3">
@@ -158,15 +158,14 @@ return (
           </div>
           <div className="item item-3"></div> */}
           <div className="item item-4">
-            <div style={{ marginTop: 10 }}>
-              <h1 className="header">2024 Training Log</h1>
-            </div>
-            <div>
-              <img src={reactLogo4} width="200" style={{ marginRight: 30 }} />
-            </div>
-            <h1 className="header3">Last Four weeks</h1>
             <center>
-              {" "}
+              <div style={{ marginTop: 0 }}>
+                <h1 className="header">2024 Training Log</h1>
+              </div>
+              <div>
+                <img src={reactLogo4} width="200" style={{ marginRight: 30 }} />
+              </div>
+              <h1 className="header3">Last Four weeks</h1>{" "}
               <BarChart
                 width={400}
                 height={200}
@@ -193,51 +192,31 @@ return (
               <table className="table1">
                 <tr>
                   <th>Total Runs:</th>
-                  {/* <td>{recentRunCount[0].employeeID}</td> */}
-                  <td>19</td>
+                  <td>{RecentKms}</td>
+                  {/* <td>19</td> */}
                 </tr>
                 <tr>
                   <th>Distance:</th>
-                  {/* <td>{recentRunCount[0].employeeID} kms</td> */}
-                  <td>138 kms</td>
+                  <td>{RecentRuns.toFixed()} kms</td>
+                  {/* <td>138 kms</td> */}
                 </tr>
               </table>
               {/* <h1 className="header3">Year to Date Stats</h1> */}
               <h1 className="header3">Year to Date Stats</h1>
-              <div>
-                {/* <img src={reactLogo4} width="100" style={{ marginRight: 30 }}/> */}
-                <table className="table1">
-                  <tr>
-                    <th>Total Runs:</th>
-                    <td>{runTotal}</td>
-                    {/* <td>{stravaData}</td> */}
-                  </tr>
-                  <tr>
-                    <th>Distance:</th>
-                    <td>{distance}</td>
-                    {/* <td>620 kms</td> */}
-                  </tr>
-                  <tr>
-                    <th>Goal:</th>
-                    <td>{distanceGoal} kms</td>
-                    {/* <td>1500 kms</td> */}
-                  </tr>
-                </table>
-              </div>
-              <div style={{ width: 200, height: 200, marginRight: 30 }}>
+              <div style={{ width: 150, height: 150, marginRight: 30 }}>
                 <CircularProgressbar
-                  value={percentage}
-                  text={`${percentage.toFixed()}%`}
+                  value={YTDpercentage}
+                  text={`${YTDpercentage.toFixed()}%`}
                   styles={{
                     // Customize the root svg element
                     root: {},
-                    // Customize the path, i.e. the "completed progress"
+                    // Customize the path, i.e. the "compvared progress"
                     path: {
                       // Path color
 
                       stroke: "#B1312A",
 
-                      // stroke: `rgba(62, 152, 199, ${percentage / 100})`,
+                      // stroke: `rgba(62, 152, 199, ${YTDpercentage / 100})`,
                       // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                       strokeLinecap: "round",
                       // Customize transition animation
@@ -269,10 +248,30 @@ return (
                     },
                   }}
                 />
-                ;
+              </div>
+              <div>
+                {/* <img src={reactLogo4} width="100" style={{ marginRight: 30 }}/> */}
+                <table className="table1">
+                  <tr>
+                    <th>Total Runs:</th>
+                    <td>{YTDrunTotals}</td>
+                    {/* <td>{stravaData}</td> */}
+                  </tr>
+                  <tr>
+                    <th>Distance:</th>
+                    <td>{YTDdistance.toFixed()}</td>
+                    {/* <td>620 kms</td> */}
+                  </tr>
+                  <tr>
+                    <th>Goal:</th>
+                    <td>{YTDdistanceGoal} kms</td>
+                    {/* <td>1500 kms</td> */}
+                  </tr>
+                </table>
               </div>
             </center>
           </div>
+
           <div className="item item-5" id="chart"></div>
         </div>
       </section>
