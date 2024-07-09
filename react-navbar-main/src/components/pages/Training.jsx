@@ -37,19 +37,23 @@ newdate.setSeconds(0);
 var myEpoch = newdate.getTime() / 1000;
 
 var weekOneStart = Math.floor(myEpoch);
+// console.log(weekOneStart);
 var weekOneEnd = weekOneStart + 604799;
 var weekOneTotal = 0;
 
 var weekTwoStart = weekOneStart - 604800;
 var weekTwoEnd = weekOneStart - 1;
+var weekTwoTotal = 0;
+
 
 var weekThreeStart = weekOneStart - 1209600;
 var weekThreeEnd = weekOneStart - 1209600 + 604799;
+var weekThreeTotal = 0;
+
 
 var weekFourStart = weekOneStart - 1814400;
 var weekFourEnd = weekOneStart - 1814400 + 604799;
 var weekFourTotal = 0;
-
 
 var data2 = [
   {
@@ -82,6 +86,28 @@ export const Training = () => {
   const [token, setToken] = useState([]);
   const [stravaData, setStravaData] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [weeklyTotals, setWeeklyTotals] = useState([
+    {
+      name: "Wk 1",
+      kms: 0,
+      amt: 15,
+    },
+    {
+      name: "Wk 2",
+      kms: 0,
+      amt: 30,
+    },
+    {
+      name: "Wk 3",
+      kms: 0,
+      amt: 45,
+    },
+    {
+      name: "Wk 4",
+      kms: 0,
+      amt: 60,
+    },
+  ]);
 
   useEffect(() => {
     async function getCode() {
@@ -101,7 +127,6 @@ export const Training = () => {
       // console.log(AccessCode);
 
       async function getStats() {
-
         // api call for stats below
 
         const endpointStats = await fetch(
@@ -113,11 +138,17 @@ export const Training = () => {
         setStravaData(statsResponse);
         // console.log(stravaData);
         // data2[0].kms = statsResponse.recent_run_totals.distance / 1000;
-        YTDpercentage = statsResponse.ytd_run_totals.distance / YTDdistanceGoal / 10;
+        YTDpercentage =
+          statsResponse.ytd_run_totals.distance / YTDdistanceGoal / 10;
         YTDrunTotals = statsResponse.ytd_run_totals.count;
         YTDdistance = statsResponse.ytd_run_totals.distance / 1000;
         RecentRuns = statsResponse.recent_run_totals.distance / 1000;
         RecentKms = statsResponse.recent_run_totals.count;
+
+
+
+
+
 
         // week four api call below
 
@@ -128,15 +159,99 @@ export const Training = () => {
             weekFourStart +
             "&before=" +
             weekFourEnd
-        );
-        const weekFourResponse = await weekFourActivities.json();      
+        );        
 
+        const weekFourResponse = await weekFourActivities.json();
+        //console.log("wk4" + weekFourResponse);
         weekFourTotal = weekFourResponse.map((weekFour) => weekFour.distance);
-        let sum = 0;
-        weekFourTotal.forEach((el) => (sum += el));
-        weekFourTotal = sum;
-        console.log(weekFourTotal);
+        let wk4Sum = 0;
+        weekFourTotal.forEach((el) => (wk4Sum += el));
+        weekFourTotal = wk4Sum;
+        wk4Sum = wk4Sum / 1000;
+        wk4Sum = wk4Sum.toFixed(1);
+        // console.log(wk4Sum);
+        // setActivities(weekFourTotal);
 
+        const weekThreeActivities = await fetch(
+          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
+            AccessCode +
+            "&after=" +
+            weekThreeStart +
+            "&before=" +
+            weekThreeEnd
+        );
+        const weekThreeResponse = await weekThreeActivities.json();
+        //console.log("wk3" + weekThreeResponse);
+
+        weekThreeTotal = weekThreeResponse.map((weekThree) => weekThree.distance);
+        let wk3Sum = 0;
+        weekThreeTotal.forEach((el) => (wk3Sum += el));
+        weekThreeTotal = wk3Sum;
+        wk3Sum = wk3Sum / 1000;
+        wk3Sum = wk3Sum.toFixed(1);
+
+
+        const weekTwoActivities = await fetch(
+          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
+            AccessCode +
+            "&after=" +
+            weekTwoStart +
+            "&before=" +
+            weekTwoEnd
+        );
+        const weekTwoResponse = await weekTwoActivities.json();
+        //console.log("wk2" + weekTwoResponse);
+
+        weekTwoTotal = weekTwoResponse.map((weekTwo) => weekTwo.distance);
+        let wk2Sum = 0;
+        weekTwoTotal.forEach((el) => (wk2Sum += el));
+        weekTwoTotal = wk2Sum;
+        wk2Sum = wk2Sum / 1000;
+        wk2Sum = wk2Sum.toFixed(1);
+
+        
+        
+
+        const weekNowActivities = await fetch(
+          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
+            AccessCode +
+            "&after=" +
+            weekOneStart
+        );
+        const weekNowResponse = await weekNowActivities.json();
+       // console.log("wkNow" + weekNowResponse);
+        weekOneTotal = weekNowResponse.map((weekNow) => weekNow.distance);
+        let wkNowSum = 0;
+        weekOneTotal.forEach((el) => (wkNowSum += el));
+        weekOneTotal = wkNowSum;
+        wkNowSum = wkNowSum / 1000;
+        wkNowSum = wkNowSum.toFixed(1);
+      // console.log(wkNowSum);
+        // setActivities(weekNowTotal);
+
+
+        setWeeklyTotals([
+          {
+            name: "Wk 1",
+            kms: wkNowSum,
+            amt: 15,
+          },
+          {
+            name: "Wk 2",
+            kms: wk2Sum,
+            amt: 30,
+          },
+          {
+            name: "Wk 3",
+            kms: wk3Sum,
+            amt: 45,
+          },
+          {
+            name: "Wk 4",
+            kms: wk4Sum,
+            amt: 60,
+          },
+        ]);
       }
       getStats();
     }
@@ -144,7 +259,7 @@ export const Training = () => {
   }, []);
 
   // console.log(stravaData);
-  // console.log(activities);
+ // console.log(activities);
   //  console.log(weekFourTotal);
   // console.log(data2);
 
@@ -169,7 +284,7 @@ export const Training = () => {
               <BarChart
                 width={400}
                 height={200}
-                data={data2}
+                data={weeklyTotals}
                 margin={{
                   top: 5,
                   right: 80,
@@ -182,7 +297,7 @@ export const Training = () => {
                 <YAxis dataKey="amt" />
                 <Tooltip />
                 <Legend />
-                {/* <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} /> */}
+              
                 <Bar
                   dataKey="kms"
                   fill="#B1312A"
