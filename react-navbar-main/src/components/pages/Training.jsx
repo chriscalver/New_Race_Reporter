@@ -150,7 +150,7 @@ export const Training = () => {
 
 
 
-        // week four api call below
+        // weekly api calls below
 
         const weekFourActivities = await fetch(
           "https://www.strava.com/api/v3/athlete/activities?access_token=" +
@@ -162,7 +162,7 @@ export const Training = () => {
         );        
 
         const weekFourResponse = await weekFourActivities.json();
-        //console.log("wk4" + weekFourResponse);
+        // console.log("wk4" + weekFourResponse);
         weekFourTotal = weekFourResponse.map((weekFour) => weekFour.distance);
         let wk4Sum = 0;
         weekFourTotal.forEach((el) => (wk4Sum += el));
@@ -181,7 +181,7 @@ export const Training = () => {
             weekThreeEnd
         );
         const weekThreeResponse = await weekThreeActivities.json();
-        //console.log("wk3" + weekThreeResponse);
+        // console.log("wk3" + weekThreeResponse);
 
         weekThreeTotal = weekThreeResponse.map((weekThree) => weekThree.distance);
         let wk3Sum = 0;
@@ -189,7 +189,6 @@ export const Training = () => {
         weekThreeTotal = wk3Sum;
         wk3Sum = wk3Sum / 1000;
         wk3Sum = wk3Sum.toFixed(1);
-
 
         const weekTwoActivities = await fetch(
           "https://www.strava.com/api/v3/athlete/activities?access_token=" +
@@ -200,17 +199,14 @@ export const Training = () => {
             weekTwoEnd
         );
         const weekTwoResponse = await weekTwoActivities.json();
-        //console.log("wk2" + weekTwoResponse);
+        // console.log("wk2" + weekTwoResponse);
 
         weekTwoTotal = weekTwoResponse.map((weekTwo) => weekTwo.distance);
         let wk2Sum = 0;
         weekTwoTotal.forEach((el) => (wk2Sum += el));
         weekTwoTotal = wk2Sum;
         wk2Sum = wk2Sum / 1000;
-        wk2Sum = wk2Sum.toFixed(1);
-
-        
-        
+        wk2Sum = wk2Sum.toFixed(1); 
 
         const weekNowActivities = await fetch(
           "https://www.strava.com/api/v3/athlete/activities?access_token=" +
@@ -219,7 +215,7 @@ export const Training = () => {
             weekOneStart
         );
         const weekNowResponse = await weekNowActivities.json();
-       // console.log("wkNow" + weekNowResponse);
+      //  console.log("wkNow" + weekNowResponse);
         weekOneTotal = weekNowResponse.map((weekNow) => weekNow.distance);
         let wkNowSum = 0;
         weekOneTotal.forEach((el) => (wkNowSum += el));
