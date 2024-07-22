@@ -38,7 +38,7 @@ function LastTenActivities(props) {
                 <h2 className="h2Training">{props.name}</h2>
                 {props.type === "Workout" && (
                   <>
-                    Workout Length {props.distance}
+                    {props.unitType} {props.distance}
                     {props.unit}
                   </>
                 )}
@@ -46,7 +46,9 @@ function LastTenActivities(props) {
                 {props.type === "Run" && (
                   <>
                    <h5>Avg pace {props.pace} /km</h5>
-                   <h5>Fastest Speed {props.fastestSplit} /km</h5>
+                   <h5>Max Speed {props.MaxSpeed} /km</h5>
+                   <h5>Moving Time {props.movingTime}</h5>
+
                   </>
                 )}
                

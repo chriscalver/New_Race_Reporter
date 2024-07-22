@@ -29,12 +29,15 @@ var d = new Date();
 var runActOne = "kms";
 var unitTypeOne = "Distance";
 var actOneName = "";
+
 var actOneDistance = 0;
 var actOneType = "";
 var actOneStartTime = "";
 var actOnePace = 0;
 var actOneMovingTime = 0;
-var actOneFastestSplit = 0;
+var actOneMaxSpeed = 0;
+
+
 
 var runActTwo = "kms";
 var unitTypeTwo = "Distance";
@@ -45,7 +48,10 @@ var actTwoType = "";
 var actTwoStartTime = "";
 var actTwoPace = 0;
 var actTwoMovingTime = 0;
-var actTwoFastestSplit = 0;
+var actTwoMaxSpeed = 0;
+
+
+
 
 var runActThree = "kms";
 var unitTypeThree = "Distance";
@@ -56,36 +62,43 @@ var actThreeType = "";
 var actThreeStartTime = "";
 var actThreePace = 0;
 var actThreeMovingTime = 0;
-var actThreeFastestSplit = 0;
+var actThreeMaxSpeed = 0;
 
 var runActFour = "kms";
+var unitTypeFour = "Distance";
 var actFourName = "";
 var actFourDistance = 0;
 var actFourType = "";
 var actFourStartTime = "";
 var actFourPace = 0;
 var actFourMovingTime = 0;
-var actFourFastestSplit = 0;
+var actFourMaxSpeed = 0;
 
 var runActFive = "kms";
+var unitTypeFive = "Distance";
+
 var actFiveName = "";
 var actFiveDistance = 0;
 var actFiveType = "";
 var actFiveStartTime = "";
 var actFivePace = 0;
 var actFiveMovingTime = 0;
-var actFiveFastestSplit = 0;
+var actFiveMaxSpeed = 0;
 
 var runActSix = "kms";
+var unitTypeSix = "Distance";
+
 var actSixName = "";
 var actSixDistance = 0;
 var actSixType = "";
 var actSixStartTime = "";
 var actSixPace = 0;
 var actSixMovingTime = 0;
-var actSixFastestSplit = 0;
+var actSixMaxSpeed = 0;
 
 var runActSeven = "kms";
+var unitTypeSeven = "Distance";
+
 var actSevenName = "";
 var actSevenDistance = "";
 var actSevenDistance = 0;
@@ -93,34 +106,40 @@ var actSevenType = "";
 var actSevenStartTime = "";
 var actSevenPace = 0;
 var actSevenMovingTime = 0;
-var actSevenFastestSplit = 0;
+var actSevenMaxSpeed = 0;
 
 var runActEight = "kms";
+var unitTypeEight = "Distance";
+
 var actEightName = "";
 var actEightDistance = 0;
 var actEightType = "";
 var actEightStartTime = "";
 var actEightPace = 0;
 var actEightMovingTime = 0;
-var actEightFastestSplit = 0;
+var actEightMaxSpeed = 0;
 
 var runActNine = "kms";
+var unitTypeNine = "Distance";
+
 var actNineName = "";
 var actNineDistance = 0;
 var actNineType = "";
 var actNineStartTime = "";
 var actNinePace = 0;
 var actNineMovingTime = 0;
-var actNineFastestSplit = 0;
+var actNineMaxSpeed = 0;
 
 var runActTen = "kms";
+var unitTypeTen = "Distance";
+
 var actTenName = "";
 var actTenDistance = 0;
 var actTenType = "";
 var actTenStartTime = "";
 var actTenPace = 0;
 var actTenMovingTime = 0;
-var actTenFastestSplit = 0;
+var actTenMaxSpeed = 0;
 
 var day = d.getDay(),
   diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
@@ -131,7 +150,7 @@ newdate.setSeconds(0);
 var myEpoch = newdate.getTime() / 1000;
 
 var weekOneStart = Math.floor(myEpoch);
- console.log(weekOneStart);
+//  console.log(weekOneStart);
 var weekOneEnd = weekOneStart + 604799;
 var weekOneTotal = 0;
 var weekTwoStart = weekOneStart - 604800;
@@ -144,6 +163,27 @@ var weekFourStart = weekOneStart - 1814400;
 var weekFourEnd = weekOneStart - 1814400 + 604799;
 var weekFourTotal = 0;
 
+
+
+
+
+function secondsToDhms(seconds) {
+  seconds = Number(seconds);
+  var d = Math.floor(seconds / (3600*24));
+  var h = Math.floor(seconds % (3600*24) / 3600);
+  var m = Math.floor(seconds % 3600 / 60);
+  var s = Math.floor(seconds % 60);
+  
+  var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+  var hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
+  var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins, ") : "";
+  var sDisplay = s > 0 ? s + (s == 1 ? " sec" : " secs") : "";
+  return dDisplay + hDisplay + mDisplay + sDisplay;
+  }
+
+
+
+
 function paceConverter (x) {
   x = x * 60;
   x = 60 / x * 1000 / 60;
@@ -155,12 +195,53 @@ function paceConverter (x) {
  
   let finalValue = left + ":" + right.slice(2);
   
-
+  // console.log(left);
+  // console.log(right);
 
   return finalValue;
   
 
 }
+
+
+
+
+
+
+
+
+
+
+function paceConverter2 (x) {
+  x = x * 60;
+  // console.log(x);
+
+  x = 60 / x * 1000 / 60;  
+  // console.log(x);
+
+  let right = x %1
+  // console.log(right);
+
+
+  let left = x - right;
+  // console.log(left);
+
+  right *= 60 / 100;
+  // console.log(right);
+
+  right = right.toFixed(2)
+  //  console.log(right);
+
+  let finalValue = left + ":" + right.slice(2);
+  
+  // console.log(left);
+  // console.log(right);
+
+  return finalValue;
+  
+
+}
+
 
 export const Training = () => {
   const [token, setToken] = useState([]);
@@ -234,6 +315,11 @@ export const Training = () => {
         const LastTenActivitiesResponse = await LastTenActivities.json();
         setLastTenActivities(LastTenActivitiesResponse);
 
+
+
+
+
+
         actOneName = LastTenActivitiesResponse[0].name;
         actOneDistance = LastTenActivitiesResponse[0].distance / 1000;        
         actOneType = LastTenActivitiesResponse[0].type;
@@ -252,12 +338,18 @@ export const Training = () => {
         actOneStartTime = actOneStartTime.slice(0, -10);
         actOneStartTime = actOneStartTime.substring(5);
         actOnePace = LastTenActivitiesResponse[0].average_speed;
-        actOneMovingTime = LastTenActivitiesResponse[0].moving_time;
-        actOneFastestSplit = LastTenActivitiesResponse[0].max_speed;
+        // console.log(actOnePace);
 
+        actOneMovingTime = secondsToDhms(LastTenActivitiesResponse[0].moving_time);
+        // console.log(actOneMovingTime);
+
+        actOneMaxSpeed = LastTenActivitiesResponse[0].max_speed;
+        // console.log(actOneMaxSpeed);
+        
         actTwoName = LastTenActivitiesResponse[1].name;
         actTwoDistance = LastTenActivitiesResponse[1].distance / 1000;                 
         actTwoType = LastTenActivitiesResponse[1].type;
+
         if (actTwoType == "Run") {
           runActTwo = "kms";
           unitTypeTwo = "Distance";
@@ -272,54 +364,77 @@ export const Training = () => {
         actTwoStartTime = actTwoStartTime.slice(0, -10);
         actTwoStartTime = actTwoStartTime.substring(5);
         actTwoPace = LastTenActivitiesResponse[1].average_speed;
-        actTwoMovingTime = LastTenActivitiesResponse[1].moving_time;
-        actTwoFastestSplit = LastTenActivitiesResponse[1].max_speed;
+
+        actTwoMovingTime = secondsToDhms(LastTenActivitiesResponse[1].moving_time);
+        actTwoMaxSpeed = LastTenActivitiesResponse[1].max_speed;
+
 
         actThreeName = LastTenActivitiesResponse[2].name;
         actThreeDistance = LastTenActivitiesResponse[2].distance / 1000;
         actThreeType = LastTenActivitiesResponse[2].type;
-        if (actThreeDistance === 0) {
+
+        if (actThreeType == "Run") {
+          runActThree = "kms";
+          unitTypeThree = "Distance";
+          //actTwoDistance = LastTenActivitiesResponse[2].distance / 1000;
+        } 
+        if (actThreeType == "Workout") {
           runActThree = "mins";
+          unitTypeThree = "Workout Length";
           actThreeDistance = LastTenActivitiesResponse[2].moving_time / 60;
-        }
+        }     
     
         actThreeStartTime = LastTenActivitiesResponse[2].start_date_local;
         actThreeStartTime = actThreeStartTime.slice(0, -10);
         actThreeStartTime = actThreeStartTime.substring(5);
         actThreePace = LastTenActivitiesResponse[2].average_speed;
-        actThreeMovingTime = LastTenActivitiesResponse[2].moving_time;
-        actThreeFastestSplit = LastTenActivitiesResponse[2].max_speed;
+        actThreeMovingTime = secondsToDhms(LastTenActivitiesResponse[2].moving_time);
+        
+        actThreeMaxSpeed = LastTenActivitiesResponse[2].max_speed;
 
         actFourName = LastTenActivitiesResponse[3].name;
         actFourDistance = LastTenActivitiesResponse[3].distance / 1000;
         actFourType = LastTenActivitiesResponse[3].type;
 
-        if (actFourDistance === 0) {
+        if (actFourType == "Run") {
+          runActFour = "kms";
+          unitTypeFour = "Distance";
+          //actTwoDistance = LastTenActivitiesResponse[3].distance / 1000;
+        } 
+        if (actFourType == "Workout") {
           runActFour = "mins";
+          unitTypeFour = "Workout Length";
           actFourDistance = LastTenActivitiesResponse[3].moving_time / 60;
-        }
+        }     
         actFourStartTime = LastTenActivitiesResponse[3].start_date_local;
         actFourStartTime = actFourStartTime.slice(0, -10);
         actFourStartTime = actFourStartTime.substring(5);
         actFourPace = LastTenActivitiesResponse[3].average_speed;
-        actFourMovingTime = LastTenActivitiesResponse[3].moving_time;
-        actFourFastestSplit = LastTenActivitiesResponse[3].max_speed;
+        actFourMovingTime = secondsToDhms(LastTenActivitiesResponse[3].moving_time);
+        actFourMaxSpeed = LastTenActivitiesResponse[3].max_speed;
 
 
         actFiveName = LastTenActivitiesResponse[4].name;
         actFiveDistance = LastTenActivitiesResponse[4].distance / 1000;
         actFiveType = LastTenActivitiesResponse[4].type;
 
-        if (actFiveDistance === 0) {
+        if (actFiveType == "Run") {
+          runActFive = "kms";
+          unitTypeFive = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[4].distance / 1000;
+        } 
+        if (actFiveType == "Workout") {
           runActFive = "mins";
+          unitTypeFive = "Workout Length";
           actFiveDistance = LastTenActivitiesResponse[4].moving_time / 60;
-        }
+        }                 
+
         actFiveStartTime = LastTenActivitiesResponse[4].start_date_local;
         actFiveStartTime = actFiveStartTime.slice(0, -10);
         actFiveStartTime = actFiveStartTime.substring(5);
         actFivePace = LastTenActivitiesResponse[4].average_speed;
-        actFiveMovingTime = LastTenActivitiesResponse[4].moving_time;
-        actFiveFastestSplit = LastTenActivitiesResponse[4].max_speed;
+        actFiveMovingTime = secondsToDhms(LastTenActivitiesResponse[4].moving_time);
+        actFiveMaxSpeed = LastTenActivitiesResponse[4].max_speed;
 
 
 
@@ -327,48 +442,66 @@ export const Training = () => {
         actSixDistance = LastTenActivitiesResponse[5].distance / 1000;
         actSixType = LastTenActivitiesResponse[5].type;
 
-        if (actSixDistance === 0) {
+        if (actSixType == "Run") {
+          runActSix = "kms";
+          unitTypeSix = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[5].distance / 1000;
+        } 
+        if (actSixType == "Workout") {
           runActSix = "mins";
+          unitTypeSix = "Workout Length";
           actSixDistance = LastTenActivitiesResponse[5].moving_time / 60;
-        }
+        }                 
         actSixStartTime = LastTenActivitiesResponse[5].start_date_local;
         actSixStartTime = actSixStartTime.slice(0, -10);
         actSixStartTime = actSixStartTime.substring(5);
         actSixPace = LastTenActivitiesResponse[5].average_speed;
-        actSixMovingTime = LastTenActivitiesResponse[5].moving_time;
-        actSixFastestSplit = LastTenActivitiesResponse[5].max_speed;
+        actSixMovingTime = secondsToDhms(LastTenActivitiesResponse[5].moving_time);
+        actSixMaxSpeed = LastTenActivitiesResponse[5].max_speed;
 
 
         actSevenName = LastTenActivitiesResponse[6].name;
         actSevenDistance = LastTenActivitiesResponse[6].distance / 1000;
         actSevenType = LastTenActivitiesResponse[6].type;
 
-        if (actSevenDistance === 0) {
+        if (actSevenType == "Run") {
+          runActSeven = "kms";
+          unitTypeSeven = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[6].distance / 1000;
+        } 
+        if (actSevenType == "Workout") {
           runActSeven = "mins";
+          unitTypeSeven = "Workout Length";
           actSevenDistance = LastTenActivitiesResponse[6].moving_time / 60;
-        }
+        }                 
         actSevenStartTime = LastTenActivitiesResponse[6].start_date_local;
         actSevenStartTime = actSevenStartTime.slice(0, -10);
         actSevenStartTime = actSevenStartTime.substring(5);
         actSevenPace = LastTenActivitiesResponse[6].average_speed;
-        actSevenMovingTime = LastTenActivitiesResponse[6].moving_time;
-        actSevenFastestSplit = LastTenActivitiesResponse[6].max_speed;
+        actSevenMovingTime = secondsToDhms(LastTenActivitiesResponse[6].moving_time);
+        actSevenMaxSpeed = LastTenActivitiesResponse[6].max_speed;
 
 
         actEightName = LastTenActivitiesResponse[7].name;
         actEightDistance = LastTenActivitiesResponse[7].distance / 1000;
         actEightType = LastTenActivitiesResponse[7].type;
 
-        if (actEightDistance === 0) {
+        if (actEightType == "Run") {
+          runActEight = "kms";
+          unitTypeEight = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[7].distance / 1000;
+        } 
+        if (actEightType == "Workout") {
           runActEight = "mins";
+          unitTypeEight = "Workout Length";
           actEightDistance = LastTenActivitiesResponse[7].moving_time / 60;
-        }
+        }                 
         actEightStartTime = LastTenActivitiesResponse[7].start_date_local;
         actEightStartTime = actEightStartTime.slice(0, -10);
         actEightStartTime = actEightStartTime.substring(5);
         actEightPace = LastTenActivitiesResponse[7].average_speed;
-        actEightMovingTime = LastTenActivitiesResponse[7].moving_time;
-        actEightFastestSplit = LastTenActivitiesResponse[7].max_speed;
+        actEightMovingTime = secondsToDhms(LastTenActivitiesResponse[7].moving_time);
+        actEightMaxSpeed = LastTenActivitiesResponse[7].max_speed;
 
 
 
@@ -377,16 +510,22 @@ export const Training = () => {
         actNineDistance = LastTenActivitiesResponse[8].distance / 1000;
         actNineType = LastTenActivitiesResponse[8].type;
 
-        if (actNineDistance === 0) {
+        if (actNineType == "Run") {
+          runActNine = "kms";
+          unitTypeNine = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[8].distance / 1000;
+        } 
+        if (actNineType == "Workout") {
           runActNine = "mins";
+          unitTypeNine = "Workout Length";
           actNineDistance = LastTenActivitiesResponse[8].moving_time / 60;
-        }
+        }                 
         actNineStartTime = LastTenActivitiesResponse[8].start_date_local;
         actNineStartTime = actNineStartTime.slice(0, -10);
         actNineStartTime = actNineStartTime.substring(5);
         actNinePace = LastTenActivitiesResponse[8].average_speed;
-        actNineMovingTime = LastTenActivitiesResponse[8].moving_time;
-        actNineFastestSplit = LastTenActivitiesResponse[8].max_speed;
+        actNineMovingTime = secondsToDhms(LastTenActivitiesResponse[8].moving_time);
+        actNineMaxSpeed = LastTenActivitiesResponse[8].max_speed;
 
 
 
@@ -394,16 +533,22 @@ export const Training = () => {
         actTenDistance = LastTenActivitiesResponse[9].distance / 1000;
         actTenType = LastTenActivitiesResponse[9].type;
 
-        if (actTenDistance === 0) {
+        if (actTenType == "Run") {
+          runActTen = "kms";
+          unitTypeTen = "Distance";
+        //  actOneDistance = LastTenActivitiesResponse[9].distance / 1000;
+        } 
+        if (actTenType == "Workout") {
           runActTen = "mins";
+          unitTypeTen = "Workout Length";
           actTenDistance = LastTenActivitiesResponse[9].moving_time / 60;
-        }
+        }                 
         actTenStartTime = LastTenActivitiesResponse[9].start_date_local;
         actTenStartTime = actTenStartTime.slice(0, -10);
         actTenStartTime = actTenStartTime.substring(5);
         actTenPace = LastTenActivitiesResponse[9].average_speed;
-        actTenMovingTime = LastTenActivitiesResponse[9].moving_time;
-        actTenFastestSplit = LastTenActivitiesResponse[9].max_speed;
+        actTenMovingTime = secondsToDhms(LastTenActivitiesResponse[9].moving_time);
+        actTenMaxSpeed = LastTenActivitiesResponse[9].max_speed;
 
 
         // weekly api calls below
@@ -658,7 +803,7 @@ export const Training = () => {
                 startTime={actOneStartTime}
                 pace={paceConverter(actOnePace)}
                 movingTime={actOneMovingTime}
-                fastestSplit={paceConverter(actOneFastestSplit)}
+                MaxSpeed={paceConverter(actOneMaxSpeed)}
                 unit={runActOne}
                 unitType={unitTypeOne}
               />
@@ -670,7 +815,7 @@ export const Training = () => {
                 startTime={actTwoStartTime}
                 pace={paceConverter(actTwoPace)}
                 movingTime={actTwoMovingTime}
-                fastestSplit={actTwoFastestSplit}
+                MaxSpeed={paceConverter(actTwoMaxSpeed)}
                 unit={runActTwo}
                 unitType={unitTypeTwo}
 
@@ -683,8 +828,10 @@ export const Training = () => {
                 startTime={actThreeStartTime}
                 pace={paceConverter(actThreePace)}
                 movingTime={actThreeMovingTime}
-                fastestSplit={actThreeFastestSplit}
+                MaxSpeed={paceConverter(actThreeMaxSpeed)}
                 unit={runActThree}
+                unitType={unitTypeThree}
+
               />
 
               <LastTenActivities
@@ -694,8 +841,10 @@ export const Training = () => {
                 startTime={actFourStartTime}
                 pace={paceConverter(actFourPace)}
                 movingTime={actFourMovingTime}
-                fastestSplit={actFourFastestSplit}
+                MaxSpeed={paceConverter(actFourMaxSpeed)}
                 unit={runActFour}
+                unitType={unitTypeFour}
+
               />
 
               <LastTenActivities
@@ -705,8 +854,10 @@ export const Training = () => {
                 startTime={actFiveStartTime}
                 pace={paceConverter(actFivePace)}
                 movingTime={actFiveMovingTime}
-                fastestSplit={actFiveFastestSplit}
+                MaxSpeed={paceConverter(actFiveMaxSpeed)}
                 unit={runActFive}
+                unitType={unitTypeFive}
+
               />
 
 
@@ -718,8 +869,10 @@ export const Training = () => {
                 startTime={actSixStartTime}
                 pace={paceConverter(actSixPace)}
                 movingTime={actSixMovingTime}
-                fastestSplit={actSixFastestSplit}
+                MaxSpeed={paceConverter(actSixMaxSpeed)}
                 unit={runActSix}
+                unitType={unitTypeSix}
+
               />
 
 
@@ -730,8 +883,10 @@ export const Training = () => {
                 startTime={actSevenStartTime}
                 pace={paceConverter(actSevenPace)}
                 movingTime={actSevenMovingTime}
-                fastestSplit={actSevenFastestSplit}
+                MaxSpeed={paceConverter(actSevenMaxSpeed)}
                 unit={runActSeven}
+                unitType={unitTypeSeven}
+
               />
 
 
@@ -742,8 +897,10 @@ export const Training = () => {
                 startTime={actEightStartTime}
                 pace={paceConverter(actEightPace)}
                 movingTime={actEightMovingTime}
-                fastestSplit={actEightFastestSplit}
+                MaxSpeed={paceConverter(actEightMaxSpeed)}
                 unit={runActEight}
+                unitType={unitTypeEight}
+
               />
 
 
@@ -756,8 +913,10 @@ export const Training = () => {
                 startTime={actNineStartTime}
                 pace={paceConverter(actNinePace)}
                 movingTime={actNineMovingTime}
-                fastestSplit={actNineFastestSplit}
+                MaxSpeed={paceConverter(actNineMaxSpeed)}
                 unit={runActNine}
+                unitType={unitTypeNine}
+
               />
 
 
@@ -769,8 +928,10 @@ export const Training = () => {
                 startTime={actTenStartTime}
                 pace={paceConverter(actTenPace)}
                 movingTime={actTenMovingTime}
-                fastestSplit={actTenFastestSplit}
+                MaxSpeed={paceConverter(actTenMaxSpeed)}
                 unit={runActTen}
+                unitType={unitTypeTen}
+
               />
 
 
