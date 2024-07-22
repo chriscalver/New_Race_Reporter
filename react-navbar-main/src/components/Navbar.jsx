@@ -8,10 +8,10 @@ export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-
-
-<nav>
-      <Link to="/racer" className="title"> {/* add racer sub dir for server  */}
+    <nav>
+      <Link to="/racer" className="title">
+       
+        {/* add racer sub dir for server  */}
         Race Reporter
       </Link>
       <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
@@ -20,11 +20,10 @@ export const Navbar = () => {
         <span></span>
       </div>
       <ul className={menuOpen ? "open" : ""}>
-      <li>
-
-          <NavLink to="/racer">Home</NavLink> {/* add racer sub dir for server  */}
+        <li>
+          <NavLink to="/racer">Home</NavLink>{" "}
+          {/* add racer sub dir for server  */}
         </li>
-       
 
         <li>
           <NavLink to="/training">Training Log</NavLink>
@@ -32,12 +31,10 @@ export const Navbar = () => {
         <li>
           <NavLink to="/blog">Race Blog</NavLink>
         </li>
-       
 
         <li>
           <NavLink to="/about">About</NavLink>
         </li>
-        
       </ul>
     </nav>
   );

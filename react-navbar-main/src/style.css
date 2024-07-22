@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
- 
+
   box-sizing: border-box;
   font-family: "Michroma";
   font-size: 16px;
@@ -10,7 +10,7 @@ body {
 }
 
 header {
-  border:rgb(164, 15, 15) 1px solid;
+  border: rgb(164, 15, 15) 1px solid;
   position: fixed;
   margin: auto;
   top: 0;
@@ -19,8 +19,6 @@ header {
   background-color: white;
   /* border-width: 2px; */
   color: #00080a;
-
-
 }
 
 .container {
@@ -55,7 +53,6 @@ header {
   width: 40px;
 }
 
-
 .tab-nav {
   outline: none;
   display: none;
@@ -87,7 +84,6 @@ header {
   display: inline-block;
   padding-right: 12px;
   text-align: right;
-
 }
 
 .content_nav li a {
@@ -112,7 +108,6 @@ header {
 .content_nav li a:hover::after {
   transform: scale(1, 1);
 }
-
 
 @media screen and (max-width: 1480px) {
   .container {
@@ -183,29 +178,18 @@ header {
   }
 }
 
-
-
-
-
-
-
-
 #App {
   /* font-family: sans-serif; */
   /* color: white; */
   height: 100vh;
   /* margin: 0px 0px 5px 10px; */
-
 }
-
-
 
 #page-wrap {
   text-align: center;
   overflow: auto;
   top: 45%;
   position: relative;
-
 }
 
 .bm-item {
@@ -234,7 +218,6 @@ header {
 .bm-burger-bars {
   background: rgb(164, 15, 15);
 }
-
 
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
@@ -270,30 +253,10 @@ header {
   background: rgba(0, 0, 0, 0.3);
 }
 
-
 .menu-item {
   color: #00080a;
   /* color: #d8c70b; */
-  
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -305,29 +268,122 @@ header {
 
 /* Main Area Layout */
 
-.table1{
-  background-color:rgb(255, 255, 255);
-width: 250px;
-margin: 0px 0px 5px 0px;
+.activities {
+  /* display: flex; */
+  background-color: rgb(255, 255, 255);
+  width: 370px;
+  /* border: 1px solid #3a921c; */
 
-  color:rgb(61, 56, 56);
-  padding:5px 0px 5px 0px;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+
+/* <!-- HTML !--> */
+/* <button class="button-12" role="button">Button 12</button> */
+
+/* CSS */
+.button-12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  border-radius: 6px;
+  border: none;
+  height: 22px;
+  margin-left: 0px;
+
+  background: rgb(164, 15, 15);
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1),
+    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5),
+    0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+  color: #dfdedf;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-12:focus {
+  box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2),
+    0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 2.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
+
+.table2 {
+  background-color: rgb(255, 255, 255);
+  width: 95%;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  color: rgb(61, 56, 56);
+  font-size: 11px;
+  /* border: 1px solid #3a921c; */
+}
+
+.table2 td {
+  /* font-weight: bold; */
+  border: 0px solid #000000;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  /* width: 25%; */
+}
+
+
+.TD1{
+  text-align: left;
+  /* text-align: right; */
+  width: 35%;
+  font-weight: 700;
+
+
+}
+.TD2{
+  text-align: left;
+  /* text-align: right; */
+  width: 30%;
+
+}
+.TD3{
+  text-align: center;
+  /* text-align: right; */
+  width: 20%;
+
+}
+
+ .TD4{
+  text-align: center;
+  /* text-align: right; */
+  width: 10%;
+
+}
+
+
+ .h2Training {
+  font-size: 16px;
+}
+
+
+.table1 {
+  background-color: rgb(255, 255, 255);
+  width: 250px;
+  margin: 0px 0px 5px 0px;
+
+  color: rgb(61, 56, 56);
+  padding: 5px 0px 5px 0px;
   font-size: 12px;
   /* margin-right: 100px; */
 }
-.table1 th{
+.table1 th {
   font-weight: bold;
   padding-top: 0px;
   width: 50%;
   text-align: left;
-    /* margin-right: 100px; */
+  /* margin-right: 100px; */
 }
-.table1 td{
+.table1 td {
   font-weight: bold;
   padding-top: 0px;
   /* margin-right: 100px; */
   width: 50%;
-
 }
 
 .subheader {
@@ -401,7 +457,6 @@ a:active {
   /* font-family: "Racing Sans One", cursive; */
 }
 
-
 .header4 {
   justify-content: center;
   /* text-align: right; */
@@ -413,13 +468,12 @@ a:active {
   /* font-family: "Racing Sans One", cursive; */
 }
 
-
 .item {
   background: white;
   color: #4c5e64;
   font-size: 12px;
   padding: 5px;
-   /* border: skyblue 1px solid; */
+  /* border: skyblue 1px solid; */
   /* text-align: center; */
   background-color: white;
 
@@ -449,7 +503,7 @@ a:active {
 }
 
 .item-4 {
-  grid-area: myArea4;  
+  grid-area: myArea4;
   /* margin: auto; */
 
   vertical-align: middle;
@@ -465,7 +519,6 @@ a:active {
   border: 0px solid green;
   vertical-align: middle;
   text-align: center;
-   
 }
 
 /* .item-6 {    
@@ -483,16 +536,15 @@ a:active {
 }
 
 .mainlogo {
-    width: 550px;
-    border: skyblue 0px solid;
-    margin: 30px 0px 0px 0px;
-  }
-  .mainlogo2 {
-    width:130px;
-    border: skyblue 0px solid;
-    margin: 0px 0px 0px 0px;
-
-  }
+  width: 550px;
+  border: skyblue 0px solid;
+  margin: 30px 0px 0px 0px;
+}
+.mainlogo2 {
+  width: 130px;
+  border: skyblue 0px solid;
+  margin: 0px 0px 0px 0px;
+}
 
 .f1logomain {
   width: 80px;
@@ -509,7 +561,7 @@ a:active {
 .container2 {
   width: 100%;
   /* margin: 0px; */
-  height: 400vh;
+  height: 100vh;
   background-color: white;
 
   /* background: #e6e6bc; */
@@ -519,10 +571,9 @@ a:active {
     "myArea4 myArea4 myArea4"
     "myArea5 myArea5 myArea5";
 
-  grid-template-rows: 240px 850px 1150px;
+  grid-template-rows: 240px 850px 150px;
   grid-template-columns: 2fr 2fr 2fr;
 }
-
 
 .container3 {
   width: 100%;
@@ -534,27 +585,19 @@ a:active {
   /* background: #e6e6bc; */
   display: grid;
   grid-template-areas:
-    
-    "myArea4 myArea4 myArea4"
-    "myArea5 myArea5 myArea5"
-    "myArea1 myArea2 myArea3";
+    "myArea2 myArea2 myArea2"
+    "myArea4 myArea4 myArea4";
 
-  grid-template-rows: 850px 50px 50px;
+  grid-template-rows: 160px 2250px;
   grid-template-columns: 2fr 2fr 2fr;
 }
 
 /* grid-template-columns: 100px 5fr 100px; */
 
-
-
-
-
-
 @media screen and (max-width: 950px) {
-
-  .item-5{
-    display:none;
-}
+  .item-5 {
+    display: none;
+  }
   .item {
     /* background: #FFFFFF; */
     color: #090224;
@@ -595,18 +638,16 @@ a:active {
     /* font-family: "Racing Sans One", cursive; */
   }
 
-
-  
-.header3 {
-  justify-content: center;
-  /* text-align: right; */
-  /* border: 1px solid #3a921c; */
-  padding: 0px 0px 0px 0px;
-  margin: 20px 0px 10px 0px;
-  font-size: 28px;
-  font-weight: 600;
-  /* font-family: "Racing Sans One", cursive; */
-}
+  .header3 {
+    justify-content: center;
+    /* text-align: right; */
+    /* border: 1px solid #3a921c; */
+    padding: 0px 0px 0px 0px;
+    margin: 20px 0px 10px 0px;
+    font-size: 28px;
+    font-weight: 600;
+    /* font-family: "Racing Sans One", cursive; */
+  }
   .mainlogo {
     width: 450px;
     border: skyblue 0px solid;
@@ -634,40 +675,31 @@ a:active {
 
     display: grid;
     grid-template-areas:
-      "myArea1 myArea2 myArea3"
+      "myArea2 myArea2 myArea2"
       "myArea4 myArea4 myArea4"
       "myArea5 myArea5 myArea5";
 
-    grid-template-rows: 30px 380px 200px;
-    grid-template-columns: 1fr 2.5fr 1fr;
+    grid-template-rows: 180px 1080px 200px;
+    grid-template-columns: 1fr 3fr 1fr;
   }
-
-  
 }
 
-
-
-
-
-
-
-
-
-
-
-
 @media screen and (max-width: 650px) {
-  .item-5{
-        display:none;
-    }
+  .stravaLogo {
+    width: 150px;
+  }
 
-  .container2 {
+  .item-5 {
+    display: none;
+  }
+
+  .container3 {
     height: 100vh;
     width: 100%;
     /* margin: auto; */
 
     display: grid;
-    grid-template-rows: 180px 475px 965px 165px 165px;
+    grid-template-rows: 125px 975px;
     grid-template-columns: 1fr;
     grid-template-areas:
       "myArea2 myArea2"
@@ -679,7 +711,7 @@ a:active {
 
   .link {
     font-weight: bolder;
-        font-size: 9px;
+    font-size: 9px;
     color: #330dca;
   }
   .subheader {
@@ -732,7 +764,6 @@ a:active {
     width: 90px;
     border: skyblue 0px solid;
     margin: 0px 0px 10px 0px;
-
   }
   .item {
     /* background: #FFFFFF; */
