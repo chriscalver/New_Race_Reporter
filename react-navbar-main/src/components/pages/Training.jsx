@@ -676,7 +676,7 @@ export const Training = () => {
           <div className="item item-1"></div>
           <div className="item item-2">
             <div style={{ marginTop: 0 }}>
-              <h1 className="header">2024 Training Log</h1>
+              <h1 className="header">'24 Training Stats</h1>
               <img
                 src={reactLogo4}
                 className="stvaLogo"

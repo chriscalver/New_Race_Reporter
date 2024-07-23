@@ -38,8 +38,9 @@ function LastTenActivities(props) {
                 <h2 className="h2Training">{props.name}</h2>
                 {props.type === "Workout" && (
                   <>
-                    {props.unitType} {props.distance}
-                    {props.unit}
+                      <h5>{props.unitType}: {props.movingTime} </h5>                
+
+                  
                   </>
                 )}
 

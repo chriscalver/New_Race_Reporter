@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  text-align: center;
 
   box-sizing: border-box;
   font-family: "Michroma";
@@ -268,6 +269,24 @@ header {
 
 /* Main Area Layout */
 
+
+.image_wrapper {
+  margin: 0px 30px;
+}
+
+
+
+.marqueeWindow{
+  width: 200px;
+  padding: 0px 0px 0px 0px;
+  text-align: center;
+  
+}
+
+.windowWidth {
+  text-align: right;
+  width: 50%;
+}
 .activities {
   /* display: flex; */
   background-color: rgb(255, 255, 255);
