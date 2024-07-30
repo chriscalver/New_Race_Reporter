@@ -23,8 +23,6 @@ var YTDrunTotals = 0;
 var YTDdistance = 0;
 var RecentRuns = 0;
 var RecentKms = 0;
-var d = new Date();
-// console.log(d);
 
 var runActOne = "kms";
 var unitTypeOne = "Distance";
@@ -37,8 +35,6 @@ var actOnePace = 0;
 var actOneMovingTime = 0;
 var actOneMaxSpeed = 0;
 
-
-
 var runActTwo = "kms";
 var unitTypeTwo = "Distance";
 var actTwoName = "";
@@ -49,9 +45,6 @@ var actTwoStartTime = "";
 var actTwoPace = 0;
 var actTwoMovingTime = 0;
 var actTwoMaxSpeed = 0;
-
-
-
 
 var runActThree = "kms";
 var unitTypeThree = "Distance";
@@ -141,6 +134,8 @@ var actTenPace = 0;
 var actTenMovingTime = 0;
 var actTenMaxSpeed = 0;
 
+var d = new Date();
+// console.log(d);
 var day = d.getDay(),
   diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
 var newdate = new Date(d.setDate(diff));
@@ -149,79 +144,65 @@ newdate.setMinutes(0);
 newdate.setSeconds(0);
 var myEpoch = newdate.getTime() / 1000;
 
-var weekOneStart = Math.floor(myEpoch);
-//  console.log(weekOneStart);
-var weekOneEnd = weekOneStart + 604799;
+var weekOneStart = Math.floor(myEpoch) * 1000;
+console.log(weekOneStart);
+var weekOneEnd = weekOneStart + 604799000;
+console.log(weekOneEnd);
+
 var weekOneTotal = 0;
-var weekTwoStart = weekOneStart - 604800;
-var weekTwoEnd = weekOneStart - 1;
+var weekTwoStart = weekOneStart - 604800000;
+// console.log(weekTwoStart);
+
+var weekTwoEnd = weekOneStart - 1000;
 var weekTwoTotal = 0;
-var weekThreeStart = weekOneStart - 1209600;
-var weekThreeEnd = weekOneStart - 1209600 + 604799;
+var weekThreeStart = weekOneStart - 1209600000;
+var weekThreeEnd = weekOneStart - 1209600000 + 604799000;
 var weekThreeTotal = 0;
-var weekFourStart = weekOneStart - 1814400;
-var weekFourEnd = weekOneStart - 1814400 + 604799;
+var weekFourStart = weekOneStart - 1814400000;
+var weekFourEnd = weekOneStart - 1814400000 + 604799000;
 var weekFourTotal = 0;
-
-
-
 
 
 function secondsToDhms(seconds) {
   seconds = Number(seconds);
-  var d = Math.floor(seconds / (3600*24));
-  var h = Math.floor(seconds % (3600*24) / 3600);
-  var m = Math.floor(seconds % 3600 / 60);
+  var d = Math.floor(seconds / (3600 * 24));
+  var h = Math.floor((seconds % (3600 * 24)) / 3600);
+  var m = Math.floor((seconds % 3600) / 60);
   var s = Math.floor(seconds % 60);
-  
+
   var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
   var hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
   var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins, ") : "";
   var sDisplay = s > 0 ? s + (s == 1 ? " sec" : " secs") : "";
   return dDisplay + hDisplay + mDisplay + sDisplay;
-  }
+}
 
-
-
-
-function paceConverter (x) {
+function paceConverter(x) {
   x = x * 60;
-  x = 60 / x * 1000 / 60;
+  x = ((60 / x) * 1000) / 60;
 
-  let right = x %1
+  let right = x % 1;
   let left = x - right;
   right *= 60 / 100;
-  right = right.toFixed(2)
- 
+  right = right.toFixed(2);
+
   let finalValue = left + ":" + right.slice(2);
-  
+
   // console.log(left);
   // console.log(right);
 
   return finalValue;
-  
-
 }
 
-
-
-
-
-
-
-
-
-
-function paceConverter2 (x) {
+function paceConverter2(x) {
   x = x * 60;
   // console.log(x);
 
-  x = 60 / x * 1000 / 60;  
+  x = ((60 / x) * 1000) / 60;
   // console.log(x);
 
-  let right = x %1
+  let right = x % 1;
   // console.log(right);
-
 
   let left = x - right;
   // console.log(left);
@@ -229,24 +210,21 @@ function paceConverter2 (x) {
   right *= 60 / 100;
   // console.log(right);
 
-  right = right.toFixed(2)
+  right = right.toFixed(2);
   //  console.log(right);
 
   let finalValue = left + ":" + right.slice(2);
-  
+
   // console.log(left);
   // console.log(right);
 
   return finalValue;
-  
-
 }
-
 
 export const Training = () => {
   const [token, setToken] = useState([]);
   const [stravaData, setStravaData] = useState([]);
-  const [lastTenActivities, setLastTenActivities] = useState([]);
+  const [last100Activities, setLast100Activities] = useState([]);
   const [weeklyTotals, setWeeklyTotals] = useState([
     {
       name: "Wk 1",
@@ -305,348 +283,369 @@ export const Training = () => {
         RecentRuns = statsResponse.recent_run_totals.distance / 1000;
         RecentKms = statsResponse.recent_run_totals.count;
 
-        //  Grab last ten Activities
+        //  Grab last 100 Activities
 
-        const LastTenActivities = await fetch(
+        const Last100Activities = await fetch(
           "https://www.strava.com/api/v3/athlete/activities?access_token=" +
             AccessCode +
-            "&per_page=10"
+            "&per_page=100"
         );
-        const LastTenActivitiesResponse = await LastTenActivities.json();
-        setLastTenActivities(LastTenActivitiesResponse);
+        const Last100ActivitiesResponse = await Last100Activities.json();
+        setLast100Activities(Last100ActivitiesResponse);
 
+        console.log(Last100ActivitiesResponse);
 
-
-
-
-
-        actOneName = LastTenActivitiesResponse[0].name;
-        actOneDistance = LastTenActivitiesResponse[0].distance / 1000;        
-        actOneType = LastTenActivitiesResponse[0].type;
+        actOneName = Last100ActivitiesResponse[0].name;
+        actOneDistance = Last100ActivitiesResponse[0].distance / 1000;
+        actOneType = Last100ActivitiesResponse[0].type;
 
         if (actOneType == "Run") {
           runActOne = "kms";
           unitTypeOne = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[0].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[0].distance / 1000;
+        }
         if (actOneType == "Workout") {
           runActOne = "mins";
           unitTypeOne = "Workout Length";
-          actOneDistance = LastTenActivitiesResponse[0].moving_time / 60;
-        }                 
-        actOneStartTime = LastTenActivitiesResponse[0].start_date_local;
+          actOneDistance = Last100ActivitiesResponse[0].moving_time / 60;
+        }
+        actOneStartTime = Last100ActivitiesResponse[0].start_date_local;
         actOneStartTime = actOneStartTime.slice(0, -10);
         actOneStartTime = actOneStartTime.substring(5);
-        actOnePace = LastTenActivitiesResponse[0].average_speed;
+        actOnePace = Last100ActivitiesResponse[0].average_speed;
         // console.log(actOnePace);
 
-        actOneMovingTime = secondsToDhms(LastTenActivitiesResponse[0].moving_time);
+        actOneMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[0].moving_time
+        );
         // console.log(actOneMovingTime);
 
-        actOneMaxSpeed = LastTenActivitiesResponse[0].max_speed;
+        actOneMaxSpeed = Last100ActivitiesResponse[0].max_speed;
         // console.log(actOneMaxSpeed);
-        
-        actTwoName = LastTenActivitiesResponse[1].name;
-        actTwoDistance = LastTenActivitiesResponse[1].distance / 1000;                 
-        actTwoType = LastTenActivitiesResponse[1].type;
+
+        actTwoName = Last100ActivitiesResponse[1].name;
+        actTwoDistance = Last100ActivitiesResponse[1].distance / 1000;
+        actTwoType = Last100ActivitiesResponse[1].type;
 
         if (actTwoType == "Run") {
           runActTwo = "kms";
           unitTypeTwo = "Distance";
-          //actTwoDistance = LastTenActivitiesResponse[1].distance / 1000;
-        } 
+          //actTwoDistance = Last100ActivitiesResponse[1].distance / 1000;
+        }
         if (actTwoType == "Workout") {
           runActTwo = "mins";
           unitTypeTwo = "Workout Length";
-          actTwoDistance = LastTenActivitiesResponse[1].moving_time / 60;
-        }     
-        actTwoStartTime = LastTenActivitiesResponse[1].start_date_local;
+          actTwoDistance = Last100ActivitiesResponse[1].moving_time / 60;
+        }
+        actTwoStartTime = Last100ActivitiesResponse[1].start_date_local;
         actTwoStartTime = actTwoStartTime.slice(0, -10);
         actTwoStartTime = actTwoStartTime.substring(5);
-        actTwoPace = LastTenActivitiesResponse[1].average_speed;
+        actTwoPace = Last100ActivitiesResponse[1].average_speed;
 
-        actTwoMovingTime = secondsToDhms(LastTenActivitiesResponse[1].moving_time);
-        actTwoMaxSpeed = LastTenActivitiesResponse[1].max_speed;
+        actTwoMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[1].moving_time
+        );
+        actTwoMaxSpeed = Last100ActivitiesResponse[1].max_speed;
 
-
-        actThreeName = LastTenActivitiesResponse[2].name;
-        actThreeDistance = LastTenActivitiesResponse[2].distance / 1000;
-        actThreeType = LastTenActivitiesResponse[2].type;
+        actThreeName = Last100ActivitiesResponse[2].name;
+        actThreeDistance = Last100ActivitiesResponse[2].distance / 1000;
+        actThreeType = Last100ActivitiesResponse[2].type;
 
         if (actThreeType == "Run") {
           runActThree = "kms";
           unitTypeThree = "Distance";
-          //actTwoDistance = LastTenActivitiesResponse[2].distance / 1000;
-        } 
+          //actTwoDistance = Last100ActivitiesResponse[2].distance / 1000;
+        }
         if (actThreeType == "Workout") {
           runActThree = "mins";
           unitTypeThree = "Workout Length";
-          actThreeDistance = LastTenActivitiesResponse[2].moving_time / 60;
-        }     
-    
-        actThreeStartTime = LastTenActivitiesResponse[2].start_date_local;
+          actThreeDistance = Last100ActivitiesResponse[2].moving_time / 60;
+        }
+
+        actThreeStartTime = Last100ActivitiesResponse[2].start_date_local;
         actThreeStartTime = actThreeStartTime.slice(0, -10);
         actThreeStartTime = actThreeStartTime.substring(5);
-        actThreePace = LastTenActivitiesResponse[2].average_speed;
-        actThreeMovingTime = secondsToDhms(LastTenActivitiesResponse[2].moving_time);
-        
-        actThreeMaxSpeed = LastTenActivitiesResponse[2].max_speed;
+        actThreePace = Last100ActivitiesResponse[2].average_speed;
+        actThreeMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[2].moving_time
+        );
 
-        actFourName = LastTenActivitiesResponse[3].name;
-        actFourDistance = LastTenActivitiesResponse[3].distance / 1000;
-        actFourType = LastTenActivitiesResponse[3].type;
+        actThreeMaxSpeed = Last100ActivitiesResponse[2].max_speed;
+
+        actFourName = Last100ActivitiesResponse[3].name;
+        actFourDistance = Last100ActivitiesResponse[3].distance / 1000;
+        actFourType = Last100ActivitiesResponse[3].type;
 
         if (actFourType == "Run") {
           runActFour = "kms";
           unitTypeFour = "Distance";
-          //actTwoDistance = LastTenActivitiesResponse[3].distance / 1000;
-        } 
+          //actTwoDistance = Last100ActivitiesResponse[3].distance / 1000;
+        }
         if (actFourType == "Workout") {
           runActFour = "mins";
           unitTypeFour = "Workout Length";
-          actFourDistance = LastTenActivitiesResponse[3].moving_time / 60;
-        }     
-        actFourStartTime = LastTenActivitiesResponse[3].start_date_local;
+          actFourDistance = Last100ActivitiesResponse[3].moving_time / 60;
+        }
+        actFourStartTime = Last100ActivitiesResponse[3].start_date_local;
         actFourStartTime = actFourStartTime.slice(0, -10);
         actFourStartTime = actFourStartTime.substring(5);
-        actFourPace = LastTenActivitiesResponse[3].average_speed;
-        actFourMovingTime = secondsToDhms(LastTenActivitiesResponse[3].moving_time);
-        actFourMaxSpeed = LastTenActivitiesResponse[3].max_speed;
+        actFourPace = Last100ActivitiesResponse[3].average_speed;
+        actFourMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[3].moving_time
+        );
+        actFourMaxSpeed = Last100ActivitiesResponse[3].max_speed;
 
-
-        actFiveName = LastTenActivitiesResponse[4].name;
-        actFiveDistance = LastTenActivitiesResponse[4].distance / 1000;
-        actFiveType = LastTenActivitiesResponse[4].type;
+        actFiveName = Last100ActivitiesResponse[4].name;
+        actFiveDistance = Last100ActivitiesResponse[4].distance / 1000;
+        actFiveType = Last100ActivitiesResponse[4].type;
 
         if (actFiveType == "Run") {
           runActFive = "kms";
           unitTypeFive = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[4].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[4].distance / 1000;
+        }
         if (actFiveType == "Workout") {
           runActFive = "mins";
           unitTypeFive = "Workout Length";
-          actFiveDistance = LastTenActivitiesResponse[4].moving_time / 60;
-        }                 
+          actFiveDistance = Last100ActivitiesResponse[4].moving_time / 60;
+        }
 
-        actFiveStartTime = LastTenActivitiesResponse[4].start_date_local;
+        actFiveStartTime = Last100ActivitiesResponse[4].start_date_local;
         actFiveStartTime = actFiveStartTime.slice(0, -10);
         actFiveStartTime = actFiveStartTime.substring(5);
-        actFivePace = LastTenActivitiesResponse[4].average_speed;
-        actFiveMovingTime = secondsToDhms(LastTenActivitiesResponse[4].moving_time);
-        actFiveMaxSpeed = LastTenActivitiesResponse[4].max_speed;
+        actFivePace = Last100ActivitiesResponse[4].average_speed;
+        actFiveMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[4].moving_time
+        );
+        actFiveMaxSpeed = Last100ActivitiesResponse[4].max_speed;
 
-
-
-        actSixName = LastTenActivitiesResponse[5].name;
-        actSixDistance = LastTenActivitiesResponse[5].distance / 1000;
-        actSixType = LastTenActivitiesResponse[5].type;
+        actSixName = Last100ActivitiesResponse[5].name;
+        actSixDistance = Last100ActivitiesResponse[5].distance / 1000;
+        actSixType = Last100ActivitiesResponse[5].type;
 
         if (actSixType == "Run") {
           runActSix = "kms";
           unitTypeSix = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[5].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[5].distance / 1000;
+        }
         if (actSixType == "Workout") {
           runActSix = "mins";
           unitTypeSix = "Workout Length";
-          actSixDistance = LastTenActivitiesResponse[5].moving_time / 60;
-        }                 
-        actSixStartTime = LastTenActivitiesResponse[5].start_date_local;
+          actSixDistance = Last100ActivitiesResponse[5].moving_time / 60;
+        }
+        actSixStartTime = Last100ActivitiesResponse[5].start_date_local;
         actSixStartTime = actSixStartTime.slice(0, -10);
         actSixStartTime = actSixStartTime.substring(5);
-        actSixPace = LastTenActivitiesResponse[5].average_speed;
-        actSixMovingTime = secondsToDhms(LastTenActivitiesResponse[5].moving_time);
-        actSixMaxSpeed = LastTenActivitiesResponse[5].max_speed;
+        actSixPace = Last100ActivitiesResponse[5].average_speed;
+        actSixMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[5].moving_time
+        );
+        actSixMaxSpeed = Last100ActivitiesResponse[5].max_speed;
 
-
-        actSevenName = LastTenActivitiesResponse[6].name;
-        actSevenDistance = LastTenActivitiesResponse[6].distance / 1000;
-        actSevenType = LastTenActivitiesResponse[6].type;
+        actSevenName = Last100ActivitiesResponse[6].name;
+        actSevenDistance = Last100ActivitiesResponse[6].distance / 1000;
+        actSevenType = Last100ActivitiesResponse[6].type;
 
         if (actSevenType == "Run") {
           runActSeven = "kms";
           unitTypeSeven = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[6].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[6].distance / 1000;
+        }
         if (actSevenType == "Workout") {
           runActSeven = "mins";
           unitTypeSeven = "Workout Length";
-          actSevenDistance = LastTenActivitiesResponse[6].moving_time / 60;
-        }                 
-        actSevenStartTime = LastTenActivitiesResponse[6].start_date_local;
+          actSevenDistance = Last100ActivitiesResponse[6].moving_time / 60;
+        }
+        actSevenStartTime = Last100ActivitiesResponse[6].start_date_local;
         actSevenStartTime = actSevenStartTime.slice(0, -10);
         actSevenStartTime = actSevenStartTime.substring(5);
-        actSevenPace = LastTenActivitiesResponse[6].average_speed;
-        actSevenMovingTime = secondsToDhms(LastTenActivitiesResponse[6].moving_time);
-        actSevenMaxSpeed = LastTenActivitiesResponse[6].max_speed;
+        actSevenPace = Last100ActivitiesResponse[6].average_speed;
+        actSevenMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[6].moving_time
+        );
+        actSevenMaxSpeed = Last100ActivitiesResponse[6].max_speed;
 
-
-        actEightName = LastTenActivitiesResponse[7].name;
-        actEightDistance = LastTenActivitiesResponse[7].distance / 1000;
-        actEightType = LastTenActivitiesResponse[7].type;
+        actEightName = Last100ActivitiesResponse[7].name;
+        actEightDistance = Last100ActivitiesResponse[7].distance / 1000;
+        actEightType = Last100ActivitiesResponse[7].type;
 
         if (actEightType == "Run") {
           runActEight = "kms";
           unitTypeEight = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[7].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[7].distance / 1000;
+        }
         if (actEightType == "Workout") {
           runActEight = "mins";
           unitTypeEight = "Workout Length";
-          actEightDistance = LastTenActivitiesResponse[7].moving_time / 60;
-        }                 
-        actEightStartTime = LastTenActivitiesResponse[7].start_date_local;
+          actEightDistance = Last100ActivitiesResponse[7].moving_time / 60;
+        }
+        actEightStartTime = Last100ActivitiesResponse[7].start_date_local;
         actEightStartTime = actEightStartTime.slice(0, -10);
         actEightStartTime = actEightStartTime.substring(5);
-        actEightPace = LastTenActivitiesResponse[7].average_speed;
-        actEightMovingTime = secondsToDhms(LastTenActivitiesResponse[7].moving_time);
-        actEightMaxSpeed = LastTenActivitiesResponse[7].max_speed;
+        actEightPace = Last100ActivitiesResponse[7].average_speed;
+        actEightMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[7].moving_time
+        );
+        actEightMaxSpeed = Last100ActivitiesResponse[7].max_speed;
 
-
-
-        
-        actNineName = LastTenActivitiesResponse[8].name;
-        actNineDistance = LastTenActivitiesResponse[8].distance / 1000;
-        actNineType = LastTenActivitiesResponse[8].type;
+        actNineName = Last100ActivitiesResponse[8].name;
+        actNineDistance = Last100ActivitiesResponse[8].distance / 1000;
+        actNineType = Last100ActivitiesResponse[8].type;
 
         if (actNineType == "Run") {
           runActNine = "kms";
           unitTypeNine = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[8].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[8].distance / 1000;
+        }
         if (actNineType == "Workout") {
           runActNine = "mins";
           unitTypeNine = "Workout Length";
-          actNineDistance = LastTenActivitiesResponse[8].moving_time / 60;
-        }                 
-        actNineStartTime = LastTenActivitiesResponse[8].start_date_local;
+          actNineDistance = Last100ActivitiesResponse[8].moving_time / 60;
+        }
+        actNineStartTime = Last100ActivitiesResponse[8].start_date_local;
         actNineStartTime = actNineStartTime.slice(0, -10);
         actNineStartTime = actNineStartTime.substring(5);
-        actNinePace = LastTenActivitiesResponse[8].average_speed;
-        actNineMovingTime = secondsToDhms(LastTenActivitiesResponse[8].moving_time);
-        actNineMaxSpeed = LastTenActivitiesResponse[8].max_speed;
+        actNinePace = Last100ActivitiesResponse[8].average_speed;
+        actNineMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[8].moving_time
+        );
+        actNineMaxSpeed = Last100ActivitiesResponse[8].max_speed;
 
-
-
-        actTenName = LastTenActivitiesResponse[9].name;
-        actTenDistance = LastTenActivitiesResponse[9].distance / 1000;
-        actTenType = LastTenActivitiesResponse[9].type;
+        actTenName = Last100ActivitiesResponse[9].name;
+        actTenDistance = Last100ActivitiesResponse[9].distance / 1000;
+        actTenType = Last100ActivitiesResponse[9].type;
 
         if (actTenType == "Run") {
           runActTen = "kms";
           unitTypeTen = "Distance";
-        //  actOneDistance = LastTenActivitiesResponse[9].distance / 1000;
-        } 
+          //  actOneDistance = Last100ActivitiesResponse[9].distance / 1000;
+        }
         if (actTenType == "Workout") {
           runActTen = "mins";
           unitTypeTen = "Workout Length";
-          actTenDistance = LastTenActivitiesResponse[9].moving_time / 60;
-        }                 
-        actTenStartTime = LastTenActivitiesResponse[9].start_date_local;
+          actTenDistance = Last100ActivitiesResponse[9].moving_time / 60;
+        }
+        actTenStartTime = Last100ActivitiesResponse[9].start_date_local;
         actTenStartTime = actTenStartTime.slice(0, -10);
         actTenStartTime = actTenStartTime.substring(5);
-        actTenPace = LastTenActivitiesResponse[9].average_speed;
-        actTenMovingTime = secondsToDhms(LastTenActivitiesResponse[9].moving_time);
-        actTenMaxSpeed = LastTenActivitiesResponse[9].max_speed;
-
+        actTenPace = Last100ActivitiesResponse[9].average_speed;
+        actTenMovingTime = secondsToDhms(
+          Last100ActivitiesResponse[9].moving_time
+        );
+        actTenMaxSpeed = Last100ActivitiesResponse[9].max_speed;
 
         // weekly api calls below
 
-        const weekFourActivities = await fetch(
-          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
-            AccessCode +
-            "&after=" +
-            weekFourStart +
-            "&before=" +
-            weekFourEnd
-        );
 
-        const weekFourResponse = await weekFourActivities.json();
-        // console.log("wk4" + weekFourResponse);
-        weekFourTotal = weekFourResponse.map((weekFour) => weekFour.distance);
-        let wk4Sum = 0;
-        weekFourTotal.forEach((el) => (wk4Sum += el));
-        weekFourTotal = wk4Sum;
-        wk4Sum = wk4Sum / 1000;
-        wk4Sum = wk4Sum.toFixed(1);
-        // console.log(wk4Sum);
-        // setActivities(weekFourTotal);
+        let LastRuns = Last100ActivitiesResponse.filter(function (res) {
+          return res.type === "Run";
+        }).map(function (res) {
+          return res;
+        });
 
-        const weekThreeActivities = await fetch(
-          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
-            AccessCode +
-            "&after=" +
-            weekThreeStart +
-            "&before=" +
-            weekThreeEnd
-        );
-        const weekThreeResponse = await weekThreeActivities.json();
-        // console.log("wk3" + weekThreeResponse);
+        console.log(LastRuns);
 
-        weekThreeTotal = weekThreeResponse.map(
-          (weekThree) => weekThree.distance
-        );
-        let wk3Sum = 0;
-        weekThreeTotal.forEach((el) => (wk3Sum += el));
-        weekThreeTotal = wk3Sum;
-        wk3Sum = wk3Sum / 1000;
-        wk3Sum = wk3Sum.toFixed(1);
+        for (let object of LastRuns) {
+          let StartTime = +Date.parse(object.start_date_local);
+          StartTime = StartTime + 14400 * 1000;
+          object.start_date_local = StartTime;
+        }
 
-        const weekTwoActivities = await fetch(
-          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
-            AccessCode +
-            "&after=" +
-            weekTwoStart +
-            "&before=" +
-            weekTwoEnd
-        );
-        const weekTwoResponse = await weekTwoActivities.json();
-        // console.log("wk2" + weekTwoResponse);
-
-        weekTwoTotal = weekTwoResponse.map((weekTwo) => weekTwo.distance);
-        let wk2Sum = 0;
-        weekTwoTotal.forEach((el) => (wk2Sum += el));
-        weekTwoTotal = wk2Sum;
-        wk2Sum = wk2Sum / 1000;
-        wk2Sum = wk2Sum.toFixed(1);
-
-        const weekNowActivities = await fetch(
-          "https://www.strava.com/api/v3/athlete/activities?access_token=" +
-            AccessCode +
-            "&after=" +
-            weekOneStart
-        );
-        const weekNowResponse = await weekNowActivities.json();
-        //  console.log("wkNow" + weekNowResponse);
-        weekOneTotal = weekNowResponse.map((weekNow) => weekNow.distance);
+        // make array for week one totals
+        weekOneTotal = LastRuns.filter(function (res) {
+          return (
+            res.start_date_local > weekOneStart &&
+            res.start_date_local < weekOneEnd
+          );
+        }).map(function (res) {
+          return res;
+        });
+        weekOneTotal = weekOneTotal.map((weekNow) => weekNow.distance);
         let wkNowSum = 0;
         weekOneTotal.forEach((el) => (wkNowSum += el));
-        weekOneTotal = wkNowSum;
-        wkNowSum = wkNowSum / 1000;
-        wkNowSum = wkNowSum.toFixed(1);
-        // console.log(wkNowSum);
-        // setActivities(weekNowTotal);
+        weekOneTotal = wkNowSum / 1000;
+        weekOneTotal = weekOneTotal.toFixed(1);
+        console.log(weekOneTotal);
+
+        // make array for week two totals
+
+        weekTwoTotal = LastRuns.filter(function (res) {
+          return (
+            res.start_date_local > weekTwoStart &&
+            res.start_date_local < weekTwoEnd
+          );
+        }).map(function (res) {
+          return res;
+        });
+        weekTwoTotal = weekTwoTotal.map((weekNow) => weekNow.distance);
+        let wkTwoSum = 0;
+        weekTwoTotal.forEach((el) => (wkTwoSum += el));
+        weekTwoTotal = wkTwoSum / 1000;
+        weekTwoTotal = weekTwoTotal.toFixed(1);
+        console.log(weekTwoTotal);
+
+        // make array for week three totals
+
+        weekThreeTotal = LastRuns.filter(function (res) {
+          return (
+            res.start_date_local > weekThreeStart &&
+            res.start_date_local < weekThreeEnd
+          );
+        }).map(function (res) {
+          return res;
+        });
+        weekThreeTotal = weekThreeTotal.map((weekNow) => weekNow.distance);
+        let wkThreeSum = 0;
+        weekThreeTotal.forEach((el) => (wkThreeSum += el));
+        weekThreeTotal = wkThreeSum / 1000;
+        weekThreeTotal = weekThreeTotal.toFixed(1);
+        console.log(weekThreeTotal);
+
+        // make array for week Four totals
+
+        weekFourTotal = LastRuns.filter(function (res) {
+          return (
+            res.start_date_local > weekFourStart &&
+            res.start_date_local < weekFourEnd
+          );
+        }).map(function (res) {
+          return res;
+        });
+        weekFourTotal = weekFourTotal.map((weekNow) => weekNow.distance);
+        let wkFourSum = 0;
+        weekFourTotal.forEach((el) => (wkFourSum += el));
+        weekFourTotal = wkFourSum / 1000;
+        weekFourTotal = weekFourTotal.toFixed(1);
+        console.log(weekFourTotal);
+
+
+
+
+
+
+
+
+
 
         setWeeklyTotals([
           {
             name: "Wk 1",
-            kms: wkNowSum,
+            kms: weekOneTotal,
             amt: 15,
           },
           {
             name: "Wk 2",
-            kms: wk2Sum,
+            kms: weekTwoTotal,
             amt: 30,
           },
           {
             name: "Wk 3",
-            kms: wk3Sum,
+            kms: weekThreeTotal,
             amt: 45,
           },
           {
             name: "Wk 4",
-            kms: wk4Sum,
+            kms: weekFourTotal,
             amt: 60,
           },
         ]);
@@ -655,19 +654,6 @@ export const Training = () => {
     }
     getCode();
   }, []);
-
-  <table className="table1">
-    <tr>
-      <th>Total Runs:</th>
-      <td>{RecentKms}</td>
-      {/* <td>19</td> */}
-    </tr>
-    <tr>
-      <th>Distance:</th>
-      <td>{RecentRuns.toFixed()} kms</td>
-      {/* <td>138 kms</td> */}
-    </tr>
-  </table>;
 
   return (
     <div>
@@ -818,7 +804,6 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actTwoMaxSpeed)}
                 unit={runActTwo}
                 unitType={unitTypeTwo}
-
               />
 
               <LastTenActivities
@@ -831,7 +816,6 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actThreeMaxSpeed)}
                 unit={runActThree}
                 unitType={unitTypeThree}
-
               />
 
               <LastTenActivities
@@ -844,7 +828,6 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actFourMaxSpeed)}
                 unit={runActFour}
                 unitType={unitTypeFour}
-
               />
 
               <LastTenActivities
@@ -857,11 +840,8 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actFiveMaxSpeed)}
                 unit={runActFive}
                 unitType={unitTypeFive}
-
               />
 
-
-                  
               <LastTenActivities
                 name={actSixName}
                 distance={actSixDistance.toFixed(2)}
@@ -872,11 +852,9 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actSixMaxSpeed)}
                 unit={runActSix}
                 unitType={unitTypeSix}
-
               />
 
-
-<LastTenActivities
+              <LastTenActivities
                 name={actSevenName}
                 distance={actSevenDistance.toFixed(2)}
                 type={actSevenType}
@@ -886,11 +864,9 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actSevenMaxSpeed)}
                 unit={runActSeven}
                 unitType={unitTypeSeven}
-
               />
 
-
-<LastTenActivities
+              <LastTenActivities
                 name={actEightName}
                 distance={actEightDistance.toFixed(2)}
                 type={actEightType}
@@ -900,13 +876,9 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actEightMaxSpeed)}
                 unit={runActEight}
                 unitType={unitTypeEight}
-
               />
 
-
-
-
-<LastTenActivities
+              <LastTenActivities
                 name={actNineName}
                 distance={actNineDistance.toFixed(2)}
                 type={actNineType}
@@ -916,12 +888,9 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actNineMaxSpeed)}
                 unit={runActNine}
                 unitType={unitTypeNine}
-
               />
 
-
-              
-<LastTenActivities
+              <LastTenActivities
                 name={actTenName}
                 distance={actTenDistance.toFixed(2)}
                 type={actTenType}
@@ -931,9 +900,7 @@ export const Training = () => {
                 MaxSpeed={paceConverter(actTenMaxSpeed)}
                 unit={runActTen}
                 unitType={unitTypeTen}
-
               />
-
 
               <hr width="370"></hr>
             </center>

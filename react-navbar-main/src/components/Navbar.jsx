@@ -10,7 +10,7 @@ export const Navbar = () => {
   return (
     <nav>
       <Link to="/racer" className="title">
-       
+      
         {/* add racer sub dir for server  */}
         Race Reporter
       </Link>
