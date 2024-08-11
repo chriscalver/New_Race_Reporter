@@ -145,9 +145,9 @@ newdate.setSeconds(0);
 var myEpoch = newdate.getTime() / 1000;
 
 var weekOneStart = Math.floor(myEpoch) * 1000;
-console.log(weekOneStart);
+// console.log(weekOneStart);
 var weekOneEnd = weekOneStart + 604799000;
-console.log(weekOneEnd);
+// console.log(weekOneEnd);
 
 var weekOneTotal = 0;
 var weekTwoStart = weekOneStart - 604800000;
@@ -293,7 +293,7 @@ export const Training = () => {
         const Last100ActivitiesResponse = await Last100Activities.json();
         setLast100Activities(Last100ActivitiesResponse);
 
-        console.log(Last100ActivitiesResponse);
+        // console.log(Last100ActivitiesResponse);
 
         actOneName = Last100ActivitiesResponse[0].name;
         actOneDistance = Last100ActivitiesResponse[0].distance / 1000;
@@ -543,7 +543,7 @@ export const Training = () => {
           return res;
         });
 
-        console.log(LastRuns);
+        // console.log(LastRuns);
 
         for (let object of LastRuns) {
           let StartTime = +Date.parse(object.start_date_local);
@@ -565,7 +565,7 @@ export const Training = () => {
         weekOneTotal.forEach((el) => (wkNowSum += el));
         weekOneTotal = wkNowSum / 1000;
         weekOneTotal = weekOneTotal.toFixed(1);
-        console.log(weekOneTotal);
+        // console.log(weekOneTotal);
 
         // make array for week two totals
 
@@ -582,7 +582,7 @@ export const Training = () => {
         weekTwoTotal.forEach((el) => (wkTwoSum += el));
         weekTwoTotal = wkTwoSum / 1000;
         weekTwoTotal = weekTwoTotal.toFixed(1);
-        console.log(weekTwoTotal);
+        // console.log(weekTwoTotal);
 
         // make array for week three totals
 
@@ -599,7 +599,7 @@ export const Training = () => {
         weekThreeTotal.forEach((el) => (wkThreeSum += el));
         weekThreeTotal = wkThreeSum / 1000;
         weekThreeTotal = weekThreeTotal.toFixed(1);
-        console.log(weekThreeTotal);
+        // console.log(weekThreeTotal);
 
         // make array for week Four totals
 
@@ -616,7 +616,7 @@ export const Training = () => {
         weekFourTotal.forEach((el) => (wkFourSum += el));
         weekFourTotal = wkFourSum / 1000;
         weekFourTotal = weekFourTotal.toFixed(1);
-        console.log(weekFourTotal);
+        // console.log(weekFourTotal);
 
 
 

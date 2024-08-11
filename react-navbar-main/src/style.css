@@ -270,8 +270,15 @@ header {
 /* Main Area Layout */
 
 
+.marquee {
+width: 40%;
+background: rgb(251, 251, 251);
+
+}
+
+
 .image_wrapper {
-  margin: 0px 30px;
+  margin: 0px 200px;
 }
 
 
@@ -403,6 +410,33 @@ header {
   padding-top: 0px;
   /* margin-right: 100px; */
   width: 50%;
+}
+
+
+
+.table3 {
+  background-color: rgb(255, 255, 255);
+  width: 100px;
+  margin: 0px 0px 5px 0px;
+
+  color: rgb(61, 56, 56);
+  padding: 0px 0px 5px 0px;
+  font-size: 12px;
+  /* margin-right: 100px; */
+}
+.table3 th {
+  font-weight: bold;
+  padding-top: 0px;
+  width: 100%;
+  text-align: left;
+  /* margin-right: 100px; */
+}
+.table3 td {
+  font-weight: bold;
+  padding-left: 0px;
+  /* margin-right: 100px; */
+  width: 100%;
+  
 }
 
 .subheader {
