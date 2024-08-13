@@ -7,7 +7,7 @@ body {
   font-family: "Michroma";
   font-size: 16px;
   font-weight: 600;
-  background-color: rgb(164, 15, 15);
+  background-color: rgb(255, 255, 255);
 }
 
 header {
@@ -505,7 +505,7 @@ a:active {
   /* border: 1px solid #3a921c; */
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 10px 0px;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 500;
   /* font-family: "Racing Sans One", cursive; */
 }
@@ -551,8 +551,11 @@ a:active {
 
 .item-3 {
   grid-area: myArea3;
+  /* margin: auto; */
+  background-color: white;
   vertical-align: middle;
-  text-align: left;
+  text-align: center;
+  /* font-size: 12px; */
 }
 
 .item-4 {
@@ -565,11 +568,6 @@ a:active {
 
 .item-5 {
   grid-area: myArea5;
-  display: flex1;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* height: 400px; */
-  border: 0px solid green;
   vertical-align: middle;
   text-align: center;
 }
@@ -628,6 +626,26 @@ a:active {
   grid-template-columns: 2fr 2fr 2fr;
 }
 
+.container5 {
+  width: 100%;
+  /* margin: 0px; */
+  height: 100vh;
+  background-color: white;
+
+  /* background: #e6e6bc; */
+  display: grid;
+  grid-template-areas:
+    "myArea2 myArea2 myArea2"
+    "myArea3 myArea4 myArea5";
+   
+
+  grid-template-rows: 240px 850px;
+  grid-template-columns: 2fr 2fr 2fr;
+}
+
+
+
+
 .container3 {
   width: 100%;
   margin: 0px;
@@ -639,18 +657,16 @@ a:active {
   display: grid;
   grid-template-areas:
     "myArea2 myArea2 myArea2"
-    "myArea4 myArea4 myArea4";
+    "myArea3 myArea4 myArea5";
 
-  grid-template-rows: 160px 2250px;
-  grid-template-columns: 2fr 2fr 2fr;
+  grid-template-rows: 160px 1250px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 /* grid-template-columns: 100px 5fr 100px; */
 
-@media screen and (max-width: 950px) {
-  .item-5 {
-    display: none;
-  }
+@media screen and (max-width: 1050px) {
+  
   .item {
     /* background: #FFFFFF; */
     color: #090224;
@@ -675,7 +691,7 @@ a:active {
     color: rgb(144, 20, 20);
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
-    font-size: 44px;
+    font-size: 40px;
     font-weight: 700;
     /* font-family: "Racing Sans One", cursive; */
   }
@@ -697,8 +713,8 @@ a:active {
     /* border: 1px solid #3a921c; */
     padding: 0px 0px 0px 0px;
     margin: 20px 0px 10px 0px;
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 500;
     /* font-family: "Racing Sans One", cursive; */
   }
   .mainlogo {
@@ -719,21 +735,43 @@ a:active {
     font-size: 12px;
   }
 
+
+  .container2 {
+    width: 100%;
+    /* margin: 0px; */
+    height: 100vh;
+    background-color: white;
+  
+    /* background: #e6e6bc; */
+    display: grid;
+    grid-template-areas:
+      "myArea1 myArea2 myArea3"
+      "myArea4 myArea4 myArea4"
+      "myArea5 myArea5 myArea5";
+  
+    grid-template-rows: 240px 850px 150px;
+    grid-template-columns: 2fr 2fr 2fr;
+  }
+  
+
+  
+
   .container3 {
     /* background: #e6e6bc; */
     width: 90%;
     /* margin: 0px; */
     height: 200vh;
-    margin: auto;
+    /* margin: auto; */
 
     display: grid;
     grid-template-areas:
-      "myArea2 myArea2 myArea2"
-      "myArea4 myArea4 myArea4"
-      "myArea5 myArea5 myArea5";
+      "myArea2 myArea2" 
+      "myArea3 myArea5"
+      "myArea4 myArea4";
 
-    grid-template-rows: 180px 1080px 200px;
-    grid-template-columns: 1fr 3fr 1fr;
+
+    grid-template-rows: 150px 350px 1000px;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -742,24 +780,39 @@ a:active {
     width: 150px;
   }
 
-  .item-5 {
-    display: none;
-  }
+  
+.container2 {
+  width: 100%;
+  /* margin: 0px; */
+  height: 100vh;
+  background-color: white;
+
+  /* background: #e6e6bc; */
+  display: grid;
+  grid-template-areas:
+    "myArea1 myArea2 myArea3"
+    "myArea4 myArea4 myArea4"
+    "myArea5 myArea5 myArea5";
+
+  grid-template-rows: 180px 850px 150px;
+  grid-template-columns: 2fr 2fr 2fr;
+}
+
 
   .container3 {
-    height: 100vh;
+    height: 200vh;
     width: 100%;
-    /* margin: auto; */
+    margin: auto;
 
     display: grid;
-    grid-template-rows: 125px 975px;
+    grid-template-rows: 130px 325px 300px 1000px;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "myArea2 myArea2"
-      "myArea4 myArea4"
-      "myArea5 myArea5"
-      "myArea1 myArea1"
-      "myArea3 myArea3";
+    "myArea2" 
+    "myArea3"
+    "myArea5"
+    "myArea4";
+
   }
 
   .link {
@@ -781,7 +834,7 @@ a:active {
     /* text-align: right; */
     /* border: 1px solid #3a921c; */
     padding: 0px 0px 0px 0px;
-    margin: 0px 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
     font-size: 26px;
     font-weight: 700;
     /* font-family: "Racing Sans One", cursive; */
@@ -802,7 +855,7 @@ a:active {
     /* text-align: right; */
     /* border: 1px solid #3a921c; */
     padding: 0px 0px 0px 0px;
-    margin: 20px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
     font-size: 20px;
     font-weight: 600;
     /* font-family: "Racing Sans One", cursive; */

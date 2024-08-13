@@ -21,19 +21,19 @@ export const Navbar = () => {
       </div>
       <ul className={menuOpen ? "open" : ""}>
         <li>
-          <NavLink to="/racer">Home</NavLink>{" "}
+          <NavLink to="/racer" onClick={() => setMenuOpen(false)}>Home</NavLink>{" "}
           {/* add racer sub dir for server  */}
         </li>
 
         <li>
-          <NavLink to="/training">Training Log</NavLink>
+          <NavLink to="/training"  onClick={() => setMenuOpen(false)}>Training Log</NavLink>
         </li>
         <li>
-          <NavLink to="/blog">Race Blog</NavLink>
+          <NavLink to="/blog" onClick={() => setMenuOpen(false)}>Uploader</NavLink>
         </li>
 
         <li>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/about" onClick={() => setMenuOpen(false)}>About</NavLink>
         </li>
       </ul>
     </nav>

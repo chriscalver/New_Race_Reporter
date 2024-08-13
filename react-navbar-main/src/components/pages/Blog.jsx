@@ -91,16 +91,8 @@ export const Blog = () => {
           </div>
           <div className="item item-3"></div>
           <div className="item item-4">
-            <table className="table2">
-              <tbody>
-                <tr>
-                  <td width="35%"></td>
-                  <td width=""></td>
-                  <td width="30%"></td>
-                </tr>
-              </tbody>
-            </table>
-            <h1 className="header">Image Uploader</h1>
+            
+            <h1 className="header" style={{ marginBottom: "20px" }}>Image Uploader</h1>
             <center>
               <table className="table3" border="0">
                 <tbody>

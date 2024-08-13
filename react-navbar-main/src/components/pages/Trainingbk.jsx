@@ -162,6 +162,7 @@ var weekFourStart = weekOneStart - 1814400000;
 var weekFourEnd = weekOneStart - 1814400000 + 604799000;
 var weekFourTotal = 0;
 
+
 function secondsToDhms(seconds) {
   seconds = Number(seconds);
   var d = Math.floor(seconds / (3600 * 24));
@@ -535,6 +536,7 @@ export const Training = () => {
 
         // weekly api calls below
 
+
         let LastRuns = Last100ActivitiesResponse.filter(function (res) {
           return res.type === "Run";
         }).map(function (res) {
@@ -616,6 +618,7 @@ export const Training = () => {
         weekFourTotal = weekFourTotal.toFixed(1);
         // console.log(weekFourTotal);
 
+
         setWeeklyTotals([
           {
             name: "Wk 1",
@@ -648,19 +651,90 @@ export const Training = () => {
     <div>
       <section className="content_section">
         <div className="container3">
+          <div className="item item-1"></div>
           <div className="item item-2">
             <div style={{ marginTop: 0 }}>
               <h1 className="header">'24 Training Stats</h1>
               <img
                 src={reactLogo4}
                 className="stvaLogo"
-                width="130"
+                width="200"
                 style={{ marginRight: 30 }}
               />
             </div>
           </div>
-          <div className="item item-3">
+          <div className="item item-3"></div>
+
+          <div className="item item-4">
             <center>
+              {/* <h1 className="header3">Year to Date Stats</h1> */}
+              <h1 className="header3">Distance Goal</h1>
+              <div style={{ width: 150, height: 150, marginRight: 30 }}>
+                <CircularProgressbar
+                  value={YTDpercentage}
+                  text={`${YTDpercentage.toFixed()}%`}
+                  styles={{
+                    // Customize the root svg element
+                    root: {},
+                    // Customize the path, i.e. the "compvared progress"
+                    path: {
+                      // Path color
+
+                      stroke: "#B1312A",
+
+                      // stroke: `rgba(62, 152, 199, ${YTDpercentage / 100})`,
+                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                      strokeLinecap: "round",
+                      // Customize transition animation
+                      transition: "stroke-dashoffset 0.5s ease 0s",
+                      // Rotate the path
+                      //  transform: 'rotate(0.25turn)',
+                      transformOrigin: "center center",
+                    },
+                    // Customize the circle behind the path, i.e. the "total progress"
+                    trail: {
+                      // Trail color
+                      stroke: "#C5A432",
+                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                      strokeLinecap: "butt",
+                      // Rotate the trail
+                      transform: "rotate(0.25turn)",
+                      transformOrigin: "center center",
+                    },
+                    // Customize the text
+                    text: {
+                      // Text color
+                      fill: "#B1312A",
+                      // Text size
+                      fontSize: "16px",
+                    },
+                    // Customize background - only used when the `background` prop is true
+                    background: {
+                      fill: "#3e98c7",
+                    },
+                  }}
+                />
+              </div>
+              <div>
+                {/* <img src={reactLogo4} width="100" style={{ marginRight: 30 }}/> */}
+                <table className="table1">
+                  <tr>
+                    <th>Total Runs:</th>
+                    <td>{YTDrunTotals}</td>
+                    {/* <td>{stravaData}</td> */}
+                  </tr>
+                  <tr>
+                    <th>Distance:</th>
+                    <td>{YTDdistance.toFixed()} kms</td>
+                    {/* <td>620 kms</td> */}
+                  </tr>
+                  <tr>
+                    <th>Goal:</th>
+                    <td>{YTDdistanceGoal} kms</td>
+                    {/* <td>1500 kms</td> */}
+                  </tr>
+                </table>
+              </div>
               <h1 className="header3">Last Four weeks</h1>
               <BarChart
                 width={400}
@@ -696,12 +770,8 @@ export const Training = () => {
                   <td>{RecentRuns.toFixed()} kms</td>
                   {/* <td>138 kms</td> */}
                 </tr>
-              </table>{" "}
-            </center>
-          </div>
+              </table>
 
-          <div className="item item-4">
-            <center>
               <h1 className="header3">Recent Activities</h1>
 
               <LastTenActivities
@@ -823,80 +893,12 @@ export const Training = () => {
                 unit={runActTen}
                 unitType={unitTypeTen}
               />
+
+              <hr width="370"></hr>
             </center>
           </div>
 
-          <div className="item item-5">
-            <center>
-              <h1 className="header3">Distance Goal</h1>
-              <div style={{ width: 150, height: 150, marginRight: 30 }}>
-                <CircularProgressbar
-                  value={YTDpercentage}
-                  text={`${YTDpercentage.toFixed()}%`}
-                  styles={{
-                    // Customize the root svg element
-                    root: {},
-                    // Customize the path, i.e. the "compvared progress"
-                    path: {
-                      // Path color
-
-                      stroke: "#B1312A",
-
-                      // stroke: `rgba(62, 152, 199, ${YTDpercentage / 100})`,
-                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-                      strokeLinecap: "round",
-                      // Customize transition animation
-                      transition: "stroke-dashoffset 0.5s ease 0s",
-                      // Rotate the path
-                      //  transform: 'rotate(0.25turn)',
-                      transformOrigin: "center center",
-                    },
-                    // Customize the circle behind the path, i.e. the "total progress"
-                    trail: {
-                      // Trail color
-                      stroke: "#C5A432",
-                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-                      strokeLinecap: "butt",
-                      // Rotate the trail
-                      transform: "rotate(0.25turn)",
-                      transformOrigin: "center center",
-                    },
-                    // Customize the text
-                    text: {
-                      // Text color
-                      fill: "#B1312A",
-                      // Text size
-                      fontSize: "16px",
-                    },
-                    // Customize background - only used when the `background` prop is true
-                    background: {
-                      fill: "#3e98c7",
-                    },
-                  }}
-                />
-              </div>
-              <div>
-                {/* <img src={reactLogo4} width="100" style={{ marginRight: 30 }}/> */}
-                <table className="table1">
-                  <tr>
-                    <th>Total Runs:</th>
-                    <td>{YTDrunTotals}</td>
-                    {/* <td>{stravaData}</td> */}
-                  </tr>
-                  <tr>
-                    <th>Distance:</th>
-                    <td>{YTDdistance.toFixed()} kms</td>
-                    {/* <td>620 kms</td> */}
-                  </tr>
-                  <tr>
-                    <th>Goal:</th>
-                    <td>{YTDdistanceGoal} kms</td>
-                    {/* <td>1500 kms</td> */}
-                  </tr>
-                </table>
-              </div>{" "}
-            </center>
-          </div>
+          <div className="item item-5" id="chart"></div>
         </div>
       </section>
     </div>
